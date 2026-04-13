@@ -335,13 +335,13 @@ $ulasan = Ulasan::getAll();
             <h2 class="section-title-main text-center">Lokasi <span>Wisata</span></h2>
 
             <div class="map-wrapper mt-4">
-                <iframe
-                    src="https://www.google.com/maps/place/Tempat+wisata+Pemandian+Serayu+Lestari/"
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3989.7038807288204!2d117.2108934!3d-0.4339606!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df5d7ad57501ed5%3A0x9b933c83728110ea!2sTempat%20wisata%20Pemandian%20Serayu%20Lestari!5e0!3m2!1sid!2sid!4v1776102263339!5m2!1sid!2sid"
                     width="100%"
                     height="350"
                     style="border:0;"
                     allowfullscreen
                     loading="lazy">
+                    referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
             </div>
 
