@@ -1,5 +1,5 @@
 <?php
-require_once "../models/Ulasan.php";
+require_once __DIR__ . "/../models/Ulasan.php";
 
 // TAMBAH ULASAN
 if (isset($_POST['tambah'])) {
@@ -10,15 +10,29 @@ if (isset($_POST['tambah'])) {
 
     Ulasan::insert($nama, $komentar, $rating);
 
-    header("Location: ../index.php");
+    // redirect ke home
+    header("Location: index.php");
+    exit;
 }
 
 // HAPUS ULASAN
-if (isset($_GET['hapus'])) {
+if (isset($_GET['id'])) {
 
-    $id = $_GET['hapus'];
+    $id = intval($_GET['id']);
 
     Ulasan::delete($id);
 
-    header("Location: ../views/admin.php");
+    header("Location: index.php?page=admin");
+    exit;
+}
+
+// APPROVE ULASAN
+if (isset($_GET['approve'])) {
+
+    $id = intval($_GET['approve']);
+
+    Ulasan::approve($id);
+
+    header("Location: index.php?page=admin");
+    exit;
 }
