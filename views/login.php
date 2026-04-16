@@ -1,5 +1,6 @@
 <?php
-// hanya tampilkan error dari controller
+// ambil error dari controller
+$error = $error ?? '';
 ?>
 
 <!DOCTYPE html>
@@ -44,8 +45,8 @@
                 </div>
             <?php endif; ?>
 
-            <!-- 🔥 FORM TIDAK DIUBAH -->
-            <form method="POST">
+            <!-- 🔥 ACTION KE ROUTING -->
+            <form method="POST" action="index.php?page=login" id="loginApp">
 
                 <div class="mb-4">
                     <label class="form-label fw-medium">Username</label>
@@ -60,15 +61,19 @@
                     <label class="form-label fw-medium">Password</label>
                     <div class="input-group-custom">
                         <i class="bi bi-lock-fill input-icon"></i>
-                        <input type="password" name="password" class="form-control form-control-login"
+                        <input :type="showPass ? 'text' : 'password'" name="password"
+                            class="form-control form-control-login"
                             placeholder="Masukkan password" required>
+
+                        <button type="button" class="btn-eye" @click="showPass = !showPass">
+                            <i :class="'bi bi-' + (showPass ? 'eye-slash' : 'eye')"></i>
+                        </button>
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-login w-100">
+                <button type="submit" name="login" class="btn btn-login w-100">
                     <i class="bi bi-box-arrow-in-right me-2"></i>Masuk ke Panel Admin
                 </button>
-
             </form>
 
             <div class="text-center mt-4">
@@ -79,8 +84,7 @@
 
             <div class="login-hint mt-3 text-center">
                 <small class="text-muted">
-                    <i class="bi bi-info-circle me-1"></i>
-                    Default: admin / admin123
+                    <i class="bi bi-info-circle me-1"></i>Default: admin / admin123
                 </small>
             </div>
 
@@ -88,6 +92,20 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+
+    <script>
+        const {
+            createApp
+        } = Vue;
+        createApp({
+            data() {
+                return {
+                    showPass: false
+                }
+            }
+        }).mount('#loginApp');
+    </script>
 
 </body>
 

@@ -1,7 +1,5 @@
 <?php
 
-require_once "controllers/AuthController.php";
-require_once "controllers/UlasanController.php";
 require_once "models/Wisata.php";
 require_once "models/Ulasan.php";
 
@@ -11,7 +9,7 @@ switch ($page) {
 
     case 'home':
         $wisata = Wisata::getData();
-        $ulasan = Ulasan::getApproved(); // 🔥 ganti ini
+        $ulasan = Ulasan::getApproved();
         require "views/home_index.php";
         break;
 
@@ -19,16 +17,23 @@ switch ($page) {
         require_once "controllers/AuthController.php";
         break;
 
-    // 🔥 DASHBOARD ADMIN
     case 'admin_dashboard':
         if (!isset($_SESSION['login'])) {
             header("Location: index.php?page=login");
             exit;
         }
+
+        // ambil semua ulasan
+        $ulasan = Ulasan::getAll();
+
+        // statistik
+        $totalUlasan = mysqli_num_rows($ulasan);
+        $pending = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM ulasan WHERE status='pending'"));
+        $approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM ulasan WHERE status='approved'"));
+
         require "views/admin/dashboard.php";
         break;
 
-    // 🔥 DATA ULASAN ADMIN
     case 'admin_ulasan':
         if (!isset($_SESSION['login'])) {
             header("Location: index.php?page=login");
@@ -38,7 +43,6 @@ switch ($page) {
         require "views/admin/ulasan.php";
         break;
 
-    // 🔥 ACTION
     case 'tambah_ulasan':
         require_once "controllers/UlasanController.php";
         break;
