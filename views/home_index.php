@@ -27,7 +27,6 @@ $d = mysqli_fetch_assoc($wisata);
                 </div>
                 <div>
                     <div class="brand-name">Pemandian Serayu Lestari</div>
-                    <div class="brand-sub">Samarinda</div>
                 </div>
             </a>
 
@@ -57,50 +56,64 @@ $d = mysqli_fetch_assoc($wisata);
 
                 <!-- KIRI -->
                 <div class="col-lg-6">
-                    <div class="badge-location mb-3">
+
+                    <!-- LOCATION -->
+                    <div class="badge-location mb-4">
                         <i class="bi bi-geo-alt-fill me-1"></i> Samarinda, Kalimantan Timur
                     </div>
 
-                    <h1 class="hero-title">
+                    <!-- TITLE -->
+                    <h1 class="hero-title mb-3">
                         Nikmati Kesegaran<br>
                         <span class="hero-title-accent">Alam Serayu</span><br>
                         Lestari
                     </h1>
 
-                    <p class="hero-desc">
+                    <!-- DESC -->
+                    <p class="hero-desc mb-4">
                         Destinasi wisata air keluarga terbaik di Samarinda. Kolam renang jernih,
                         suasana alam sejuk, dan fasilitas lengkap menanti Anda.
                     </p>
 
-                    <div class="hero-buttons mb-4">
+                    <!-- BUTTON -->
+                    <div class="hero-buttons d-flex gap-3 mb-5">
                         <a href="#wisata" class="btn btn-hero-primary">
-                            <i class="bi bi-compass me-2"></i>Jelajahi Sekarang
+                            <i class="bi bi-compass me-2"></i>Telusuri Sekarang
                         </a>
+
                         <a href="#ulasan" class="btn btn-hero-outline">
-                            <i class="bi bi-eye me-2"></i>Lihat Ulasan
+                            <i class="bi bi-eye me-2"></i>Lihat Kata Mereka
                         </a>
                     </div>
 
-                    <div class="hero-stats">
+                    <!-- STATS -->
+                    <div class="hero-stats d-flex align-items-center gap-4">
+
                         <div class="stat-item">
-                            <h4>5K+</h4>
+                            <h4>800+</h4>
                             <p>Pengunjung/Bulan</p>
                         </div>
+
                         <div class="stat-divider"></div>
+
                         <div class="stat-item">
                             <h4>4.8★</h4>
                             <p>Rating Wisata</p>
                         </div>
+
                         <div class="stat-divider"></div>
+
                         <div class="stat-item">
                             <h4>10+</h4>
                             <p>Fasilitas</p>
                         </div>
+
                     </div>
+
                 </div>
 
                 <!-- KANAN -->
-                <div class="col-lg-6">
+                <div class="col-lg-6"> <!-- 🔥 diperbesar dari 6 ke 7 -->
                     <div class="hero-visual">
 
                         <div class="hero-badge-family">
@@ -109,7 +122,10 @@ $d = mysqli_fetch_assoc($wisata);
 
                         <div class="hero-img-card">
                             <?php if (!empty($d['gambar'])): ?>
-                                <img src="assets/images/<?= htmlspecialchars($d['gambar']) ?>" alt="Foto Wisata" class="hero-img">
+                                <img
+                                    src="assets/images/<?= htmlspecialchars($d['gambar']) ?>"
+                                    alt="Foto Wisata"
+                                    class="hero-img img-fluid">
                             <?php else: ?>
                                 <div class="hero-img-placeholder">
                                     <i class="bi bi-image"></i>
@@ -117,10 +133,6 @@ $d = mysqli_fetch_assoc($wisata);
                                     <small>Gambar dengan foto asli di public/img</small>
                                 </div>
                             <?php endif; ?>
-                        </div>
-
-                        <div class="hero-rating-badge">
-                            <i class="bi bi-star-fill me-1 text-warning"></i> 4.8 Rating
                         </div>
 
                     </div>
@@ -237,8 +249,7 @@ $d = mysqli_fetch_assoc($wisata);
                 <!-- TENTANG -->
                 <div class="col-lg-7" id="tentang">
                     <div class="tentang-card h-100">
-                        <div class="section-label">TENTANG KAMI</div>
-                        <h3 class="mb-3">Tentang <span>Wisata</span></h3>
+                        <h3 class="mb-3">Tentang <span>Kami</span></h3>
                         <p><?= htmlspecialchars($d['deskripsi'] ?? '') ?></p>
                         <hr class="my-3">
                         <div class="tentang-info-grid">
@@ -323,7 +334,6 @@ $d = mysqli_fetch_assoc($wisata);
     <!-- ===== LOKASI ===== -->
     <section id="lokasi" class="section-lokasi">
         <div class="container">
-            <div class="section-label text-center">TEMUKAN KAMI</div>
             <h2 class="section-title-main text-center">Lokasi <span>Wisata</span></h2>
 
             <div class="map-wrapper mt-4">
@@ -374,8 +384,7 @@ $d = mysqli_fetch_assoc($wisata);
     <!-- ===== ULASAN ===== -->
     <section id="ulasan" class="section-ulasan">
         <div class="container">
-            <div class="section-label text-center">KATA MEREKA</div>
-            <h2 class="section-title-main text-center">Ulasan <span>Pengunjung</span></h2>
+            <h2 class="section-title-main text-center">Sampaikan <span>Ulasan Kamu</span></h2>
             <p class="section-sub text-center">Dengarkan pengalaman nyata dari pengunjung setia kami</p>
 
             <?php
