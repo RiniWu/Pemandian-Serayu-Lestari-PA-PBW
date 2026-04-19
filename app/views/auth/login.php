@@ -1,7 +1,9 @@
-<?php
-// ambil error dari controller
-$error = $error ?? '';
-?>
+<?php if (!empty($data['error'])): ?>
+    <div class="alert alert-danger d-flex align-items-center gap-2">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <?= htmlspecialchars($data['error']) ?>
+    </div>
+<?php endif; ?>
 
 <!DOCTYPE html>
 <html lang="id">
@@ -14,9 +16,7 @@ $error = $error ?? '';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" href="/assets/css/admin.css">
 </head>
 
 <body class="login-page">
@@ -46,13 +46,14 @@ $error = $error ?? '';
             <?php endif; ?>
 
             <!-- 🔥 ACTION KE ROUTING -->
-            <form method="POST" action="index.php?page=login" id="loginApp">
+            <form method="POST" action="/auth/login" id="loginApp">
 
                 <div class="mb-4">
                     <label class="form-label fw-medium">Username</label>
                     <div class="input-group-custom">
                         <i class="bi bi-person-fill input-icon"></i>
-                        <input type="text" name="username" class="form-control form-control-login"
+                        <input type="text" name="username"
+                            class="form-control form-control-login"
                             placeholder="Masukkan username" required autofocus>
                     </div>
                 </div>
@@ -71,13 +72,13 @@ $error = $error ?? '';
                     </div>
                 </div>
 
-                <button type="submit" name="login" class="btn btn-login w-100">
+                <button type="submit" class="btn btn-login w-100">
                     <i class="bi bi-box-arrow-in-right me-2"></i>Masuk ke Panel Admin
                 </button>
             </form>
 
             <div class="text-center mt-4">
-                <a href="index.php" class="btn-back-home">
+                <a href="/" class="btn-back-home">
                     <i class="bi bi-house me-1"></i>Kembali ke Beranda
                 </a>
             </div>
