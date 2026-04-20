@@ -93,7 +93,6 @@ $BASEURL = "http://pa_pbw_profilwisata.test";
     <!-- Main Content -->
     <div class="admin-main" id="adminMain">
 
-        <!-- Top Bar -->
         <div class="admin-topbar">
             <button class="btn-toggle-sidebar" id="toggleSidebar">
                 <i class="bi bi-list"></i>
