@@ -138,9 +138,9 @@ $BASEURL = base_url();
             <div class="admin-card-body">
                 <div class="d-grid gap-2">
 
-                    <a href="<?= $BASEURL ?>/admin/wisata"
+                    <a href="<?= $BASEURL ?>/admin/fasilitas?tambah=1"
                         class="btn btn-primary">
-                        <i class="bi bi-plus-circle me-2"></i>Tambah Wisata
+                        <i class="bi bi-plus-circle me-2"></i>Tambah Fasilitas
                     </a>
 
                     <a href="<?= $BASEURL ?>/admin/ulasan"
