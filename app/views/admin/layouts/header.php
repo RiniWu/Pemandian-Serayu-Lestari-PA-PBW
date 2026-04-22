@@ -31,9 +31,11 @@ $BASEURL = base_url();
 
     <!-- FLASH MESSAGE -->
     <?php if (isset($_SESSION['flash'])): ?>
-        <div class="alert alert-<?= $_SESSION['flash']['type'] === 'success' ? 'success' : 'danger' ?> alert-dismissible fade show m-3">
-            <?= $_SESSION['flash']['message'] ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="admin-flash-wrap">
+            <div class="alert alert-<?= $_SESSION['flash']['type'] === 'success' ? 'success' : 'danger' ?> alert-dismissible fade show admin-flash" role="alert">
+                <?= htmlspecialchars($_SESSION['flash']['message']) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </div>
         <?php unset($_SESSION['flash']); ?>
     <?php endif; ?>

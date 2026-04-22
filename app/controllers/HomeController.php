@@ -4,10 +4,12 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $fasilitas = $this->model('Wisata');
+        $wisata = $this->model('Wisata');
+        $fasilitas = $this->model('Fasilitas');
         $ulasan = $this->model('Ulasan');
 
-        $data['wisata'] = $fasilitas->getAll();
+        $data['wisata'] = $wisata->getAll();
+        $data['fasilitas'] = $fasilitas->getAllAktifWithGambar();
         $data['ulasan'] = $ulasan->getApproved();
 
 

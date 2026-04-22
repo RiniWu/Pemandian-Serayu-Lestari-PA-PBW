@@ -17,6 +17,7 @@ class Fasilitas
         $result = mysqli_query($this->conn, "SELECT * FROM fasilitas ORDER BY id DESC");
         $data = [];
         while ($row = mysqli_fetch_assoc($result)) {
+            $row['gambar_list'] = $this->getGambarList($row['nama']);
             $data[] = $row;
         }
         return $data;
@@ -52,9 +53,16 @@ class Fasilitas
 
     public function delete($id)
     {
+        $data = $this->getById($id);
         $stmt = mysqli_prepare($this->conn, "DELETE FROM fasilitas WHERE id=?");
         mysqli_stmt_bind_param($stmt, "i", $id);
-        return mysqli_stmt_execute($stmt);
+        $deleted = mysqli_stmt_execute($stmt);
+
+        if ($deleted && !empty($data['nama'])) {
+            $this->deleteGambarFolder($data['nama']);
+        }
+
+        return $deleted;
     }
 
     // ============================================
@@ -70,17 +78,14 @@ class Fasilitas
         $data = [];
 
         while ($row = mysqli_fetch_assoc($result)) {
-            $row['gambar_list'] = $this->getGambarFromFolder($row['nama']);
+            $row['gambar_list'] = $this->getGambarList($row['nama']);
             $data[] = $row;
         }
 
         return $data;
     }
 
-    /**
-     * Scan gambar dari folder berdasarkan nama fasilitas
-     */
-    private function getGambarFromFolder($namaFasilitas)
+    public function getGambarList($namaFasilitas)
     {
         $slug = $this->createSlug($namaFasilitas);
         $folderPath = __DIR__ . '/../../public/' . $this->gambarBasePath . $slug . '/';
@@ -101,10 +106,91 @@ class Fasilitas
         }
 
         if (empty($gambar)) {
-            $gambar[] = 'assets/images/img1.jpg';
+            return [];
         }
 
-        return implode(',', $gambar);
+        return $gambar;
+    }
+
+    public function uploadGambar($namaFasilitas, $files, $replace = false)
+    {
+        if (!$files || empty($files['name'])) {
+            return 0;
+        }
+
+        $folderPath = $this->getFolderPath($namaFasilitas);
+        if ($replace && is_dir($folderPath)) {
+            $this->deleteDirectoryContents($folderPath);
+        }
+
+        if (!is_dir($folderPath)) {
+            mkdir($folderPath, 0777, true);
+        }
+
+        $allowed = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+        $uploadedCount = 0;
+        $names = is_array($files['name']) ? $files['name'] : [$files['name']];
+        $tmpNames = is_array($files['tmp_name']) ? $files['tmp_name'] : [$files['tmp_name']];
+        $errors = is_array($files['error']) ? $files['error'] : [$files['error']];
+        $sizes = is_array($files['size']) ? $files['size'] : [$files['size']];
+
+        foreach ($names as $i => $originalName) {
+            if (($errors[$i] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+                continue;
+            }
+
+            $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+            if (!in_array($ext, $allowed, true)) {
+                continue;
+            }
+
+            if (($sizes[$i] ?? 0) > 5 * 1024 * 1024) {
+                continue;
+            }
+
+            $fileName = 'img' . time() . '_' . ($i + 1) . '.' . $ext;
+            $target = $folderPath . DIRECTORY_SEPARATOR . $fileName;
+
+            if (move_uploaded_file($tmpNames[$i], $target)) {
+                $uploadedCount++;
+            }
+        }
+
+        return $uploadedCount;
+    }
+
+    public function renameGambarFolder($namaLama, $namaBaru)
+    {
+        $namaLama = trim((string) $namaLama);
+        $namaBaru = trim((string) $namaBaru);
+
+        if ($namaLama === '' || $namaBaru === '' || $namaLama === $namaBaru) {
+            return;
+        }
+
+        $folderLama = $this->getFolderPath($namaLama);
+        $folderBaru = $this->getFolderPath($namaBaru);
+
+        if (!is_dir($folderLama) || $folderLama === $folderBaru) {
+            return;
+        }
+
+        if (is_dir($folderBaru)) {
+            return;
+        }
+
+        @rename($folderLama, $folderBaru);
+    }
+
+    public function deleteGambarFolder($namaFasilitas)
+    {
+        $folderPath = $this->getFolderPath($namaFasilitas);
+        if (!is_dir($folderPath)) {
+            return;
+        }
+
+        $this->deleteDirectoryContents($folderPath);
+        @rmdir($folderPath);
     }
 
     /**
@@ -116,5 +202,30 @@ class Fasilitas
         $slug = preg_replace('/[^a-z0-9-]/', '-', $slug);
         $slug = preg_replace('/-+/', '-', $slug);
         return trim($slug, '-');
+    }
+
+    private function getFolderPath($namaFasilitas)
+    {
+        $slug = $this->createSlug($namaFasilitas);
+        return __DIR__ . '/../../public/' . $this->gambarBasePath . $slug;
+    }
+
+    private function deleteDirectoryContents($folderPath)
+    {
+        $items = scandir($folderPath);
+        if ($items === false) {
+            return;
+        }
+
+        foreach ($items as $item) {
+            if ($item === '.' || $item === '..') {
+                continue;
+            }
+
+            $target = $folderPath . DIRECTORY_SEPARATOR . $item;
+            if (is_file($target)) {
+                @unlink($target);
+            }
+        }
     }
 }

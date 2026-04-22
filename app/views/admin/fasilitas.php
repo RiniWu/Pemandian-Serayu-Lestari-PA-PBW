@@ -36,7 +36,7 @@ $BASEURL = base_url();
             </div>
 
             <div class="admin-card-body">
-                <form method="POST"
+                <form method="POST" enctype="multipart/form-data"
                     action="<?= $editData ? $BASEURL . '/admin/editFasilitas/' . $editData['id'] : $BASEURL . '/admin/tambahFasilitas' ?>">
 
                     <div class="row g-3">
@@ -66,6 +66,43 @@ $BASEURL = base_url();
                                 <option value="nonaktif" <?= ($editData['status'] ?? '') === 'nonaktif' ? 'selected' : '' ?>>Nonaktif</option>
                             </select>
                         </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-medium">Foto Fasilitas</label>
+                            <div id="fotoFasilitasList" class="d-flex flex-column gap-2">
+                                <input type="file" name="gambar[]" class="form-control" accept=".jpg,.jpeg,.png,.webp,.gif">
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary mt-2" id="btnTambahFotoField">
+                                <i class="bi bi-plus-circle me-1"></i>Tambah Kolom Foto
+                            </button>
+                            <small class="text-muted d-block mt-2">
+                                Bisa upload banyak foto sekaligus dengan menambah kolom foto. Format: JPG, PNG, WEBP, GIF. Maksimal 5MB per file.
+                            </small>
+                        </div>
+
+                        <?php if ($editData && !empty($editData['gambar_list'])): ?>
+                            <div class="col-12">
+                                <label class="form-label fw-medium">Foto Saat Ini</label>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <?php foreach ($editData['gambar_list'] as $gambar): ?>
+                                        <a href="<?= $BASEURL . '/' . htmlspecialchars($gambar) ?>" target="_blank" rel="noopener noreferrer">
+                                            <img src="<?= $BASEURL . '/' . htmlspecialchars($gambar) ?>"
+                                                alt="Foto <?= htmlspecialchars($editData['nama']) ?>"
+                                                style="width:90px;height:90px;object-fit:cover;border-radius:10px;border:1px solid #dee2e6;">
+                                        </a>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="replace_gambar" value="1" id="replaceGambar">
+                                    <label class="form-check-label" for="replaceGambar">
+                                        Ganti semua foto lama dengan foto baru yang diupload
+                                    </label>
+                                </div>
+                            </div>
+                        <?php endif; ?>
 
                     </div>
 
@@ -104,6 +141,7 @@ $BASEURL = base_url();
                             <th width="40">#</th>
                             <th>Icon</th>
                             <th>Nama</th>
+                            <th>Foto</th>
                             <th>Status</th>
                             <th width="160">Aksi</th>
                         </tr>
@@ -125,6 +163,15 @@ $BASEURL = base_url();
 
                                     <td class="fw-medium">
                                         <?= htmlspecialchars($f['nama']) ?>
+                                    </td>
+
+                                    <td>
+                                        <?php $jumlahGambar = count($f['gambar_list'] ?? []); ?>
+                                        <?php if ($jumlahGambar > 0): ?>
+                                            <span class="badge bg-info text-dark"><?= $jumlahGambar ?> foto</span>
+                                        <?php else: ?>
+                                            <span class="text-muted">Belum ada</span>
+                                        <?php endif; ?>
                                     </td>
 
                                     <td>
@@ -156,7 +203,7 @@ $BASEURL = base_url();
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="5" class="text-center py-4 text-muted">
+                                <td colspan="6" class="text-center py-4 text-muted">
                                     Belum ada data fasilitas
                                 </td>
                             </tr>
@@ -172,3 +219,23 @@ $BASEURL = base_url();
     </div>
 
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fotoList = document.getElementById('fotoFasilitasList');
+        const btnTambah = document.getElementById('btnTambahFotoField');
+
+        if (!fotoList || !btnTambah) {
+            return;
+        }
+
+        btnTambah.addEventListener('click', function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.name = 'gambar[]';
+            input.className = 'form-control';
+            input.accept = '.jpg,.jpeg,.png,.webp,.gif';
+            fotoList.appendChild(input);
+        });
+    });
+</script>

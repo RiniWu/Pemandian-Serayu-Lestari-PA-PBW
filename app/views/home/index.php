@@ -1,5 +1,6 @@
 <?php
 $d = $data['wisata'][0] ?? null;
+$fasilitasList = $data['fasilitas'] ?? [];
 $ulasan = $data['ulasan'] ?? [];
 $BASEURL = base_url();
 ?>
@@ -353,51 +354,12 @@ $BASEURL = base_url();
             <div class="row g-3 mt-4">
                 <?php
                 $index = 0;
-
-                // Array statis fasilitas (untuk tampilan home)
-                $fasilitasList = [
-                    ['icon' => 'bi-water',       'nama' => 'Kolam Renang Dewasa', 'deskripsi' => 'Kolam renang dengan kedalaman 1,2m - 2m, air jernih dan bersih.'],
-                    ['icon' => 'bi-emoji-smile', 'nama' => 'Kolam Anak', 'deskripsi' => 'Kolam khusus anak dengan kedalaman aman 30cm - 60cm.'],
-                    ['icon' => 'bi-house-door',  'nama' => 'Gazebo & Santai', 'deskripsi' => 'Tempat bersantai bersama keluarga dengan gazebo nyaman.'],
-                    ['icon' => 'bi-cup-hot',     'nama' => 'Warung Makan', 'deskripsi' => 'Tersedia berbagai menu makanan dan minuman segar.'],
-                    ['icon' => 'bi-door-closed', 'nama' => 'Kamar Bilas', 'deskripsi' => 'Kamar bilas bersih dengan air hangat dan dingin.'],
-                    ['icon' => 'bi-p-circle',    'nama' => 'Area Parkir', 'deskripsi' => 'Area parkir luas untuk mobil dan motor.'],
-                    ['icon' => 'bi-lightning',   'nama' => 'Flying Fox', 'deskripsi' => 'Wahana flying fox dengan panjang lintasan 50 meter.'],
-                    ['icon' => 'bi-camera',      'nama' => 'Spot Foto', 'deskripsi' => 'Berbagai spot foto instagramable dengan dekorasi alam.'],
-                ];
-
-                // Loop dan scan gambar dari folder
                 foreach ($fasilitasList as $f) {
-                    // Buat slug dari nama
-                    $slug = strtolower(trim($f['nama']));
-                    $slug = preg_replace('/[^a-z0-9]+/', '-', $slug);
-                    $slug = trim($slug, '-');
-
-                    // Path folder gambar
-                    $folderPath = 'assets/images/fasilitas/' . $slug . '/';
-                    $fullPath = __DIR__ . '/../../../public/' . $folderPath;
-
-                    // Scan gambar dari folder
-                    $gambarArray = [];
-                    if (is_dir($fullPath)) {
-                        $files = scandir($fullPath);
-                        foreach ($files as $file) {
-                            if (preg_match('/\.(jpg|jpeg|png|webp|gif)$/i', $file)) {
-                                $gambarArray[] = $folderPath . $file;
-                            }
-                        }
-                        sort($gambarArray);
-                    }
-
-                    // Fallback kalau folder kosong atau tidak ada
-                    if (empty($gambarArray)) {
-                        $gambarArray = ['assets/images/img1.jpg'];
-                    }
-
+                    $gambarArray = !empty($f['gambar_list']) ? $f['gambar_list'] : ['assets/images/img1.jpg'];
                     $gambarJson = json_encode($gambarArray);
                     $nama = htmlspecialchars($f['nama'], ENT_QUOTES);
                     $deskripsi = htmlspecialchars($f['deskripsi'], ENT_QUOTES);
-                    $icon = htmlspecialchars($f['icon']);
+                    $icon = htmlspecialchars($f['icon'] ?: 'bi-image');
                     $jumlahGambar = count($gambarArray);
                 ?>
                     <div class="col-6 col-md-3">

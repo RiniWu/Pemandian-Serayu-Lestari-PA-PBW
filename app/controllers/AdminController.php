@@ -127,7 +127,21 @@ class AdminController
         require_once __DIR__ . '/../models/Fasilitas.php';
         $model = new Fasilitas();
 
-        $model->insert($_POST['nama'], $_POST['deskripsi'], $_POST['icon'], $_POST['status']);
+        $nama = trim($_POST['nama'] ?? '');
+        $deskripsi = trim($_POST['deskripsi'] ?? '');
+        $icon = trim($_POST['icon'] ?? '');
+        $status = trim($_POST['status'] ?? 'aktif');
+
+        $saved = $model->insert($nama, $deskripsi, $icon, $status);
+        if ($saved && isset($_FILES['gambar'])) {
+            $model->uploadGambar($nama, $_FILES['gambar'], false);
+        }
+
+        if ($saved) {
+            setFlash('success', 'Fasilitas berhasil ditambahkan');
+        } else {
+            setFlash('error', 'Gagal menambahkan fasilitas');
+        }
 
         header('Location: ' . base_url('admin/fasilitas'));
         exit;
@@ -137,8 +151,28 @@ class AdminController
     {
         require_once __DIR__ . '/../models/Fasilitas.php';
         $model = new Fasilitas();
+        $existing = $model->getById((int) $id);
 
-        $model->update($id, $_POST['nama'], $_POST['deskripsi'], $_POST['icon'], $_POST['status']);
+        $nama = trim($_POST['nama'] ?? '');
+        $deskripsi = trim($_POST['deskripsi'] ?? '');
+        $icon = trim($_POST['icon'] ?? '');
+        $status = trim($_POST['status'] ?? 'aktif');
+        $replaceGambar = isset($_POST['replace_gambar']) && $_POST['replace_gambar'] === '1';
+
+        if ($existing && !empty($existing['nama'])) {
+            $model->renameGambarFolder($existing['nama'], $nama);
+        }
+
+        $updated = $model->update($id, $nama, $deskripsi, $icon, $status);
+        if ($updated && isset($_FILES['gambar'])) {
+            $model->uploadGambar($nama, $_FILES['gambar'], $replaceGambar);
+        }
+
+        if ($updated) {
+            setFlash('success', 'Fasilitas berhasil diupdate');
+        } else {
+            setFlash('error', 'Gagal mengupdate fasilitas');
+        }
 
         header('Location: ' . base_url('admin/fasilitas'));
         exit;
@@ -149,7 +183,11 @@ class AdminController
         require_once __DIR__ . '/../models/Fasilitas.php';
         $model = new Fasilitas();
 
-        $model->delete($id);
+        if ($model->delete($id)) {
+            setFlash('success', 'Fasilitas berhasil dihapus');
+        } else {
+            setFlash('error', 'Gagal menghapus fasilitas');
+        }
 
         header('Location: ' . base_url('admin/fasilitas'));
         exit;
