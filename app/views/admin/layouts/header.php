@@ -3,8 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// BASE URL (WAJIB SESUAIKAN)
-$BASEURL = "http://pa_pbw_profilwisata.test";
+$BASEURL = base_url();
 ?>
 
 <!DOCTYPE html>
@@ -82,7 +81,7 @@ $BASEURL = "http://pa_pbw_profilwisata.test";
             </a>
 
             <!-- LOGOUT -->
-            <a href="<?= $BASEURL ?>/admin/logout"
+            <a href="<?= $BASEURL ?>/auth/logout"
                 class="sidebar-link text-danger-soft">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Keluar</span>

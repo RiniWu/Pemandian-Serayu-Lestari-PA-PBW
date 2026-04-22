@@ -1,5 +1,5 @@
 <?php
-$BASEURL = "http://pa_pbw_profilwisata.test";
+$BASEURL = base_url();
 
 $daftarUlasan = $ulasan ?? [];
 $filter = $filter ?? 'semua';

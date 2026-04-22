@@ -5,6 +5,8 @@
     </div>
 <?php endif; ?>
 
+<?php $BASEURL = base_url(); ?>
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -16,7 +18,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/admin.css">
+    <link rel="stylesheet" href="<?= $BASEURL ?>/assets/css/admin.css">
 </head>
 
 <body class="login-page">
@@ -46,7 +48,7 @@
             <?php endif; ?>
 
             <!-- 🔥 ACTION KE ROUTING -->
-            <form method="POST" action="/auth/login" id="loginApp">
+            <form method="POST" action="<?= $BASEURL ?>/auth/login" id="loginApp">
 
                 <div class="mb-4">
                     <label class="form-label fw-medium">Username</label>
@@ -78,7 +80,7 @@
             </form>
 
             <div class="text-center mt-4">
-                <a href="/" class="btn-back-home">
+                <a href="<?= $BASEURL ?>" class="btn-back-home">
                     <i class="bi bi-house me-1"></i>Kembali ke Beranda
                 </a>
             </div>

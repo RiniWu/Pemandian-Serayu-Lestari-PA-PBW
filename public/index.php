@@ -9,5 +9,5 @@ $url = trim($url, '/');
 $url = explode('/', $url);
 
 // kirim ke routes
-require_once '../app/core/App.php';
+require_once __DIR__ . '/../app/core/App.php';
 $app = new App();

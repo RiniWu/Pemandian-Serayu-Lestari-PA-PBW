@@ -5,8 +5,7 @@ $totalUlasan = $total ?? 0;
 $pending = $pending ?? 0;
 $approved = $approved ?? 0;
 
-// BASE URL (HARUS SAMA DENGAN HEADER & TANPA / DI AKHIR)
-$BASEURL = "http://pa_pbw_profilwisata.test";
+$BASEURL = base_url();
 ?>
 
 <!-- STAT CARDS -->

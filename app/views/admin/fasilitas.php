@@ -1,5 +1,6 @@
 <?php
 $fasilitas = $fasilitas ?? [];
+$BASEURL = base_url();
 ?>
 
 <div class="admin-section">
@@ -8,7 +9,7 @@ $fasilitas = $fasilitas ?? [];
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <h4 class="mb-0 fw-bold">Data Fasilitas</h4>
 
-        <a href="/admin/fasilitas?tambah=1" class="btn btn-primary">
+        <a href="<?= $BASEURL ?>/admin/fasilitas?tambah=1" class="btn btn-primary">
             <i class="bi bi-plus-circle me-1"></i> Tambah Fasilitas
         </a>
     </div>
@@ -36,7 +37,7 @@ $fasilitas = $fasilitas ?? [];
 
             <div class="admin-card-body">
                 <form method="POST"
-                    action="<?= $editData ? '/admin/editFasilitas/' . $editData['id'] : '/admin/tambahFasilitas' ?>">
+                    action="<?= $editData ? $BASEURL . '/admin/editFasilitas/' . $editData['id'] : $BASEURL . '/admin/tambahFasilitas' ?>">
 
                     <div class="row g-3">
 
@@ -74,7 +75,7 @@ $fasilitas = $fasilitas ?? [];
                             <?= $editData ? 'Update' : 'Simpan' ?>
                         </button>
 
-                        <a href="/admin/fasilitas" class="btn btn-outline-secondary">
+                        <a href="<?= $BASEURL ?>/admin/fasilitas" class="btn btn-outline-secondary">
                             <i class="bi bi-x-circle me-1"></i> Batal
                         </a>
                     </div>
@@ -135,13 +136,13 @@ $fasilitas = $fasilitas ?? [];
                                     <td>
                                         <div class="d-flex gap-1 flex-wrap">
 
-                                            <a href="/admin/fasilitas?edit=<?= $f['id'] ?>"
+                                            <a href="<?= $BASEURL ?>/admin/fasilitas?edit=<?= $f['id'] ?>"
                                                 class="btn btn-xs btn-outline-primary"
                                                 title="Edit">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
 
-                                            <a href="/admin/hapusFasilitas/<?= $f['id'] ?>"
+                                            <a href="<?= $BASEURL ?>/admin/hapusFasilitas/<?= $f['id'] ?>"
                                                 class="btn btn-xs btn-outline-danger"
                                                 onclick="return confirm('Yakin hapus fasilitas ini?')"
                                                 title="Hapus">

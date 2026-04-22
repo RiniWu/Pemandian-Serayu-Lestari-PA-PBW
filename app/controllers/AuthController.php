@@ -2,28 +2,34 @@
 
 class AuthController extends Controller
 {
+    private function appUrl($path = '')
+    {
+        $basePath = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/');
+        $path = ltrim($path, '/');
+
+        return $path === '' ? $basePath : $basePath . '/' . $path;
+    }
+
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            // ambil input
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            // panggil model (pakai username)
             $admin = $this->model('Admin')->login($username, $password);
 
             if ($admin) {
                 $_SESSION['login'] = true;
+                $_SESSION['admin_id'] = $admin['id'] ?? null;
+                $_SESSION['admin_nama'] = $admin['nama'] ?? ($admin['username'] ?? 'Admin');
 
-                // redirect ke dashboard admin
-                header("Location: /admin");
+                header("Location: " . $this->appUrl('admin'));
                 exit;
-            } else {
-                $data['error'] = "Username atau password salah!";
-                $this->view('auth/login', $data);
-                return;
             }
+
+            $data['error'] = "Username atau password salah!";
+            $this->view('auth/login', $data);
+            return;
         }
 
         $this->view('auth/login');
@@ -31,10 +37,14 @@ class AuthController extends Controller
 
     public function logout()
     {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $_SESSION = [];
         session_destroy();
 
-        // ❗ jangan ke /logout (loop)
-        header("Location: /auth/login");
+        header("Location: " . $this->appUrl('auth/login'));
         exit;
     }
 }

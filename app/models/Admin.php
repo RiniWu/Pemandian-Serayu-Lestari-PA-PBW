@@ -22,8 +22,14 @@ class Admin
         $result = mysqli_stmt_get_result($stmt);
         $admin = mysqli_fetch_assoc($result);
 
-        // cek password (HASH)
-        if ($admin && password_verify($password, $admin['password'])) {
+        // dukung password hash dan data lama yang masih plain text
+        if (
+            $admin
+            && (
+                password_verify($password, $admin['password'])
+                || hash_equals((string) $admin['password'], (string) $password)
+            )
+        ) {
             return $admin;
         }
 

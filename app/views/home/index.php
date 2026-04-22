@@ -1,6 +1,7 @@
 <?php
 $d = $data['wisata'][0] ?? null;
 $ulasan = $data['ulasan'] ?? [];
+$BASEURL = base_url();
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +15,7 @@ $ulasan = $data['ulasan'] ?? [];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="<?= $BASEURL ?>/assets/css/style.css">
 </head>
 
 <body>
@@ -151,7 +152,7 @@ $ulasan = $data['ulasan'] ?? [];
                         <div class="hero-img-card">
                             <?php if (!empty($d['gambar'])): ?>
                                 <img
-                                    src="assets/images/<?= htmlspecialchars($d['gambar']) ?>"
+                                    src="<?= $BASEURL ?>/assets/images/<?= htmlspecialchars($d['gambar']) ?>"
                                     alt="Foto Wisata Pemandian Serayu Lestari"
                                     class="hero-img">
                             <?php else: ?>
@@ -182,13 +183,13 @@ $ulasan = $data['ulasan'] ?? [];
         <div id="carouselSerayu" class="carousel slide rounded-4 overflow-hidden shadow-lg" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="assets/images/img2.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 1">
+                    <img src="<?= $BASEURL ?>/assets/images/img2.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 1">
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/images/img3.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 2">
+                    <img src="<?= $BASEURL ?>/assets/images/img3.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 2">
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/images/img4.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 3">
+                    <img src="<?= $BASEURL ?>/assets/images/img4.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 3">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselSerayu" data-bs-slide="prev">
@@ -278,7 +279,7 @@ $ulasan = $data['ulasan'] ?? [];
                     <div class="wisata-card">
                         <div class="wisata-card-img">
                             <?php if (!empty($d['gambar'])): ?>
-                                <img src="assets/images/<?= htmlspecialchars($d['gambar']) ?>" alt="Foto <?= htmlspecialchars($d['nama'] ?? 'Wisata') ?>">
+                                <img src="<?= $BASEURL ?>/assets/images/<?= htmlspecialchars($d['gambar']) ?>" alt="Foto <?= htmlspecialchars($d['nama'] ?? 'Wisata') ?>">
                             <?php else: ?>
                                 <div class="wisata-img-placeholder"><i class="bi bi-image"></i></div>
                             <?php endif; ?>
@@ -518,7 +519,7 @@ $ulasan = $data['ulasan'] ?? [];
                     <i class="bi bi-pencil-square me-2"></i>Tulis Ulasan Anda
                 </h5>
 
-                <form action="/ulasan/tambah" method="POST">
+                <form action="<?= $BASEURL ?>/ulasan/tambah" method="POST">
                     <div class="row g-3">
 
                         <div class="col-md-6">
@@ -631,7 +632,7 @@ $ulasan = $data['ulasan'] ?? [];
                         <li><a href="#">Beranda</a></li>
                         <li><a href="#wisata">Wisata</a></li>
                         <li><a href="#ulasan">Ulasan</a></li>
-                        <li><a href="index.php?page=admin">Admin</a></li>
+                        <li><a href="<?= $BASEURL ?>/admin">Admin</a></li>
                     </ul>
                 </div>
 

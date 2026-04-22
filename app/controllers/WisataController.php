@@ -34,8 +34,8 @@ class WisataController extends Controller
 
             $this->model('Wisata')->tambah($data);
 
-            $_SESSION['success'] = "Wisata berhasil ditambahkan!";
-            header("Location: /wisata/admin");
+            setFlash('success', 'Wisata berhasil ditambahkan!');
+            header("Location: " . base_url('wisata/admin'));
             exit;
         }
 
@@ -66,8 +66,8 @@ class WisataController extends Controller
 
             $wisata->update($id, $data);
 
-            $_SESSION['success'] = "Wisata berhasil diupdate!";
-            header("Location: /wisata/admin");
+            setFlash('success', 'Wisata berhasil diupdate!');
+            header("Location: " . base_url('wisata/admin'));
             exit;
         }
 
@@ -84,8 +84,8 @@ class WisataController extends Controller
 
         $this->model('Wisata')->delete($id);
 
-        $_SESSION['success'] = "Wisata berhasil dihapus!";
-        header("Location: /wisata/admin");
+        setFlash('success', 'Wisata berhasil dihapus!');
+        header("Location: " . base_url('wisata/admin'));
         exit;
     }
 
@@ -115,7 +115,7 @@ class WisataController extends Controller
     private function cekLogin()
     {
         if (!isset($_SESSION['login'])) {
-            header("Location: /login");
+            header("Location: " . base_url('auth/login'));
             exit;
         }
     }

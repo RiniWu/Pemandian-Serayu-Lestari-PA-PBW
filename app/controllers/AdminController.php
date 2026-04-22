@@ -2,6 +2,11 @@
 
 class AdminController
 {
+    public function __construct()
+    {
+        $this->cekLogin();
+    }
+
     private function view($view, $data = [])
     {
         extract($data);
@@ -16,6 +21,13 @@ class AdminController
         $this->dashboard();
     }
 
+    private function cekLogin()
+    {
+        if (!isset($_SESSION['login'])) {
+            header('Location: ' . base_url('auth/login'));
+            exit;
+        }
+    }
 
     public function dashboard()
     {
@@ -56,12 +68,12 @@ class AdminController
         $model = new Ulasan();
 
         if ($model->approve($id)) {
-            $_SESSION['flash'] = ['type' => 'success', 'message' => 'Ulasan disetujui'];
+            setFlash('success', 'Ulasan disetujui');
         } else {
-            $_SESSION['flash'] = ['type' => 'error', 'message' => 'Gagal approve'];
+            setFlash('error', 'Gagal approve');
         }
 
-        header('Location: /admin/ulasan');
+        header('Location: ' . base_url('admin/ulasan'));
         exit;
     }
 
@@ -71,12 +83,12 @@ class AdminController
         $model = new Ulasan();
 
         if ($model->delete($id)) {
-            $_SESSION['flash'] = ['type' => 'success', 'message' => 'Ulasan dihapus'];
+            setFlash('success', 'Ulasan dihapus');
         } else {
-            $_SESSION['flash'] = ['type' => 'error', 'message' => 'Gagal hapus'];
+            setFlash('error', 'Gagal hapus');
         }
 
-        header('Location: /admin/ulasan');
+        header('Location: ' . base_url('admin/ulasan'));
         exit;
     }
 
@@ -101,7 +113,8 @@ class AdminController
 
         $model->insert($_POST['nama'], $_POST['deskripsi'], $_POST['icon'], $_POST['status']);
 
-        header('Location: /admin/fasilitas');
+        header('Location: ' . base_url('admin/fasilitas'));
+        exit;
     }
 
     public function editFasilitas($id)
@@ -111,7 +124,8 @@ class AdminController
 
         $model->update($id, $_POST['nama'], $_POST['deskripsi'], $_POST['icon'], $_POST['status']);
 
-        header('Location: /admin/fasilitas');
+        header('Location: ' . base_url('admin/fasilitas'));
+        exit;
     }
 
     public function hapusFasilitas($id)
@@ -121,6 +135,7 @@ class AdminController
 
         $model->delete($id);
 
-        header('Location: /admin/fasilitas');
+        header('Location: ' . base_url('admin/fasilitas'));
+        exit;
     }
 }

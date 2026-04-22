@@ -15,7 +15,7 @@ class UlasanController extends Controller
 
         $ulasan->tambah($nama, $komentar, $rating);
 
-        header("Location: /");
+        header("Location: " . base_url(''));
         exit;
     }
 
@@ -25,7 +25,7 @@ class UlasanController extends Controller
     public function admin()
     {
         if (!isset($_SESSION['login'])) {
-            header("Location: /auth/login");
+            header("Location: " . base_url('auth/login'));
             exit;
         }
 
@@ -57,14 +57,14 @@ class UlasanController extends Controller
     public function approve($id)
     {
         if (!isset($_SESSION['login'])) {
-            header("Location: /auth/login");
+            header("Location: " . base_url('auth/login'));
             exit;
         }
 
         $ulasan = $this->model('Ulasan');
         $ulasan->approve($id);
 
-        header("Location: /ulasan/admin");
+        header("Location: " . base_url('ulasan/admin'));
         exit;
     }
 
@@ -74,14 +74,14 @@ class UlasanController extends Controller
     public function delete($id)
     {
         if (!isset($_SESSION['login'])) {
-            header("Location: /auth/login");
+            header("Location: " . base_url('auth/login'));
             exit;
         }
 
         $ulasan = $this->model('Ulasan');
         $ulasan->delete($id);
 
-        header("Location: /ulasan/admin");
+        header("Location: " . base_url('ulasan/admin'));
         exit;
     }
 }
