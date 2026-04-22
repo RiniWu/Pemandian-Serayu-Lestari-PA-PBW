@@ -352,39 +352,103 @@ $BASEURL = base_url();
 
             <div class="row g-3 mt-4">
                 <?php
+                $index = 0;
+
+                // Array statis fasilitas (untuk tampilan home)
                 $fasilitasList = [
-                    ['icon' => 'bi-water',       'nama' => 'Kolam Renang Dewasa'],
-                    ['icon' => 'bi-emoji-smile', 'nama' => 'Kolam Anak'],
-                    ['icon' => 'bi-house-door',  'nama' => 'Gazebo & Santai'],
-                    ['icon' => 'bi-cup-hot',     'nama' => 'Warung Makan'],
-                    ['icon' => 'bi-door-closed', 'nama' => 'Kamar Bilas'],
-                    ['icon' => 'bi-p-circle',    'nama' => 'Area Parkir'],
-                    ['icon' => 'bi-lightning',   'nama' => 'Flying Fox'],
-                    ['icon' => 'bi-camera',      'nama' => 'Spot Foto'],
+                    ['icon' => 'bi-water',       'nama' => 'Kolam Renang Dewasa', 'deskripsi' => 'Kolam renang dengan kedalaman 1,2m - 2m, air jernih dan bersih.'],
+                    ['icon' => 'bi-emoji-smile', 'nama' => 'Kolam Anak', 'deskripsi' => 'Kolam khusus anak dengan kedalaman aman 30cm - 60cm.'],
+                    ['icon' => 'bi-house-door',  'nama' => 'Gazebo & Santai', 'deskripsi' => 'Tempat bersantai bersama keluarga dengan gazebo nyaman.'],
+                    ['icon' => 'bi-cup-hot',     'nama' => 'Warung Makan', 'deskripsi' => 'Tersedia berbagai menu makanan dan minuman segar.'],
+                    ['icon' => 'bi-door-closed', 'nama' => 'Kamar Bilas', 'deskripsi' => 'Kamar bilas bersih dengan air hangat dan dingin.'],
+                    ['icon' => 'bi-p-circle',    'nama' => 'Area Parkir', 'deskripsi' => 'Area parkir luas untuk mobil dan motor.'],
+                    ['icon' => 'bi-lightning',   'nama' => 'Flying Fox', 'deskripsi' => 'Wahana flying fox dengan panjang lintasan 50 meter.'],
+                    ['icon' => 'bi-camera',      'nama' => 'Spot Foto', 'deskripsi' => 'Berbagai spot foto instagramable dengan dekorasi alam.'],
                 ];
 
-                if (isset($fasilitas)) {
-                    mysqli_data_seek($fasilitas, 0);
-                    while ($f = mysqli_fetch_assoc($fasilitas)) {
-                        echo '<div class="col-6 col-md-3">';
-                        echo '<div class="fasilitas-card">';
-                        echo '<div class="fasilitas-icon"><i class="bi bi-check-circle-fill"></i></div>';
-                        echo '<p>' . htmlspecialchars($f['nama']) . '</p>';
-                        echo '</div></div>';
+                // Loop dan scan gambar dari folder
+                foreach ($fasilitasList as $f) {
+                    // Buat slug dari nama
+                    $slug = strtolower(trim($f['nama']));
+                    $slug = preg_replace('/[^a-z0-9]+/', '-', $slug);
+                    $slug = trim($slug, '-');
+
+                    // Path folder gambar
+                    $folderPath = 'assets/images/fasilitas/' . $slug . '/';
+                    $fullPath = __DIR__ . '/../../../public/' . $folderPath;
+
+                    // Scan gambar dari folder
+                    $gambarArray = [];
+                    if (is_dir($fullPath)) {
+                        $files = scandir($fullPath);
+                        foreach ($files as $file) {
+                            if (preg_match('/\.(jpg|jpeg|png|webp|gif)$/i', $file)) {
+                                $gambarArray[] = $folderPath . $file;
+                            }
+                        }
+                        sort($gambarArray);
                     }
-                } else {
-                    foreach ($fasilitasList as $f) {
-                        echo '<div class="col-6 col-md-3">';
-                        echo '<div class="fasilitas-card">';
-                        echo '<div class="fasilitas-icon"><i class="bi ' . htmlspecialchars($f['icon']) . '"></i></div>';
-                        echo '<p>' . htmlspecialchars($f['nama']) . '</p>';
-                        echo '</div></div>';
+
+                    // Fallback kalau folder kosong atau tidak ada
+                    if (empty($gambarArray)) {
+                        $gambarArray = ['assets/images/img1.jpg'];
                     }
+
+                    $gambarJson = json_encode($gambarArray);
+                    $nama = htmlspecialchars($f['nama'], ENT_QUOTES);
+                    $deskripsi = htmlspecialchars($f['deskripsi'], ENT_QUOTES);
+                    $icon = htmlspecialchars($f['icon']);
+                    $jumlahGambar = count($gambarArray);
+                ?>
+                    <div class="col-6 col-md-3">
+                        <div class="fasilitas-card"
+                            onclick='bukaLightbox(<?php echo $index; ?>, "<?php echo $nama; ?>", "<?php echo $deskripsi; ?>", <?php echo $gambarJson; ?>)'>
+                            <div class="fasilitas-icon">
+                                <i class="bi <?php echo $icon; ?>"></i>
+                            </div>
+                            <p><?php echo htmlspecialchars($f['nama']); ?></p>
+                            <small class="text-muted">
+                                <i class="bi bi-images"></i> Lihat Galeri
+                                <span class="badge-gambar"><?php echo $jumlahGambar; ?></span>
+                            </small>
+                        </div>
+                    </div>
+                <?php
+                    $index++;
                 }
                 ?>
             </div>
         </div>
     </section>
+
+    <!-- ===== LIGHTBOX OVERLAY ===== -->
+    <div id="lightbox-overlay" class="lightbox-overlay" onclick="tutupLightbox(event)">
+        <div class="lightbox-container" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="tutupLightbox()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+
+            <button class="lightbox-nav lightbox-prev" onclick="gantiFoto(-1)">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <button class="lightbox-nav lightbox-next" onclick="gantiFoto(1)">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+
+            <div class="lightbox-content">
+                <img id="lightbox-img" src="" alt="Fasilitas">
+                <div class="lightbox-info">
+                    <h3 id="lightbox-judul"></h3>
+                    <p id="lightbox-deskripsi"></p>
+                    <div class="lightbox-counter">
+                        <span id="lightbox-current">1</span> / <span id="lightbox-total">1</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lightbox-thumbnails" id="lightbox-thumbnails"></div>
+        </div>
+    </div>
 
     <!-- ===== LOKASI ===== -->
     <section id="lokasi" class="section-lokasi">
@@ -670,6 +734,7 @@ $BASEURL = base_url();
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/lightbox.js"></script>
     <script>
         // ===== Lihat semua ulasan =====
         // Diperbaiki: class .ulasan-hidden sudah ada di CSS (display:none),

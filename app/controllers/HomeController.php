@@ -10,6 +10,7 @@ class HomeController extends Controller
         $data['wisata'] = $fasilitas->getAll();
         $data['ulasan'] = $ulasan->getApproved();
 
+
         $this->view('home/index', $data);
     }
 }
