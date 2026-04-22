@@ -184,9 +184,9 @@ class AdminController
         $model = new Fasilitas();
 
         if ($model->delete($id)) {
-            setFlash('success', 'Fasilitas berhasil dihapus');
+            setFlash('success', 'Fasilitas berhasil dihapus.');
         } else {
-            setFlash('error', 'Gagal menghapus fasilitas');
+            setFlash('error', 'Fasilitas gagal dihapus.');
         }
 
         header('Location: ' . base_url('admin/fasilitas'));

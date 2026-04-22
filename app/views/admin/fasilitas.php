@@ -190,9 +190,12 @@ $BASEURL = base_url();
                                             </a>
 
                                             <a href="<?= $BASEURL ?>/admin/hapusFasilitas/<?= $f['id'] ?>"
-                                                class="btn btn-xs btn-outline-danger"
-                                                onclick="return confirm('Yakin hapus fasilitas ini?')"
-                                                title="Hapus">
+                                                class="btn btn-xs btn-outline-danger btn-hapus-fasilitas"
+                                                data-fasilitas-nama="<?= htmlspecialchars($f['nama'], ENT_QUOTES) ?>"
+                                                data-delete-url="<?= $BASEURL ?>/admin/hapusFasilitas/<?= $f['id'] ?>"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalHapusFasilitas"
+                                                title="Hapus data fasilitas">
                                                 <i class="bi bi-trash"></i>
                                             </a>
 
@@ -220,22 +223,64 @@ $BASEURL = base_url();
 
 </div>
 
+<div class="modal fade" id="modalHapusFasilitas" tabindex="-1" aria-labelledby="modalHapusFasilitasLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <p class="text-danger fw-semibold mb-1">Konfirmasi hapus</p>
+                    <h5 class="modal-title mb-0" id="modalHapusFasilitasLabel">Hapus fasilitas ini?</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body pt-3">
+                <p class="mb-0 text-muted">
+                    Fasilitas <span class="fw-semibold text-body" id="hapusFasilitasNama">ini</span> akan dihapus permanen.
+                    Data dan foto yang terkait tidak bisa dipulihkan setelah aksi ini dilakukan.
+                </p>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                <a href="#" class="btn btn-danger" id="btnKonfirmasiHapusFasilitas">Ya, hapus</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const fotoList = document.getElementById('fotoFasilitasList');
         const btnTambah = document.getElementById('btnTambahFotoField');
+        const modalHapus = document.getElementById('modalHapusFasilitas');
+        const namaHapus = document.getElementById('hapusFasilitasNama');
+        const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapusFasilitas');
+        const tombolHapus = document.querySelectorAll('.btn-hapus-fasilitas');
 
         if (!fotoList || !btnTambah) {
-            return;
+            // Modal hapus tetap bisa dipakai walau form foto tidak tampil.
         }
 
-        btnTambah.addEventListener('click', function() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.name = 'gambar[]';
-            input.className = 'form-control';
-            input.accept = '.jpg,.jpeg,.png,.webp,.gif';
-            fotoList.appendChild(input);
-        });
+        if (fotoList && btnTambah) {
+            btnTambah.addEventListener('click', function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.name = 'gambar[]';
+                input.className = 'form-control';
+                input.accept = '.jpg,.jpeg,.png,.webp,.gif';
+                fotoList.appendChild(input);
+            });
+        }
+
+        if (modalHapus && namaHapus && btnKonfirmasiHapus) {
+            tombolHapus.forEach(function(tombol) {
+                tombol.addEventListener('click', function() {
+                    const nama = tombol.getAttribute('data-fasilitas-nama') || 'fasilitas ini';
+                    const deleteUrl = tombol.getAttribute('data-delete-url') || '#';
+
+                    namaHapus.textContent = nama;
+                    btnKonfirmasiHapus.setAttribute('href', deleteUrl);
+                });
+            });
+        }
     });
 </script>
