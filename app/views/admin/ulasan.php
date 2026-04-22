@@ -22,13 +22,13 @@ $totalDitolak = 0; // optional kalau belum ada
         Semua <span class="tab-badge"><?= $totalSemua ?></span>
     </a>
 
-    <a href="<?= $BASEURL ?>/admin/ulasan"
-        class="filter-tab">
+    <a href="<?= $BASEURL ?>/admin/ulasan?filter=pending"
+        class="filter-tab <?= $filter === 'pending' ? 'active' : '' ?>">
         Menunggu <span class="tab-badge tab-badge-warning"><?= $totalMenunggu ?></span>
     </a>
 
-    <a href="<?= $BASEURL ?>/admin/ulasan"
-        class="filter-tab">
+    <a href="<?= $BASEURL ?>/admin/ulasan?filter=approved"
+        class="filter-tab <?= $filter === 'approved' ? 'active' : '' ?>">
         Disetujui <span class="tab-badge tab-badge-success"><?= $totalDisetujui ?></span>
     </a>
 </div>

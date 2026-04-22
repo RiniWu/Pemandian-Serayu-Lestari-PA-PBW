@@ -53,8 +53,24 @@ class AdminController
         require_once __DIR__ . '/../models/Ulasan.php';
         $model = new Ulasan();
 
+        $filter = $_GET['filter'] ?? 'semua';
+        $stats = $model->getStats();
+
+        if ($filter === 'pending') {
+            $daftarUlasan = $model->getPending();
+        } elseif ($filter === 'approved') {
+            $daftarUlasan = $model->getApproved();
+        } else {
+            $filter = 'semua';
+            $daftarUlasan = $model->getAll();
+        }
+
         $data = [
-            'ulasan' => $model->getAll(),
+            'ulasan' => $daftarUlasan,
+            'filter' => $filter,
+            'total' => (int) ($stats['total'] ?? 0),
+            'pending' => (int) ($stats['pending'] ?? 0),
+            'approved' => (int) ($stats['approved'] ?? 0),
             'pageTitle' => 'Data Ulasan',
             'activePage' => 'ulasan'
         ];
