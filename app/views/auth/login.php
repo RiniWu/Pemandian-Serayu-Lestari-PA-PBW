@@ -88,7 +88,7 @@
 
             <div class="login-hint mt-3 text-center">
                 <small class="text-muted">
-                    <i class="bi bi-info-circle me-1"></i>Default: admin / admin123
+                    <i class="bi bi-info-circle me-1"></i>
                 </small>
             </div>
 

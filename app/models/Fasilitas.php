@@ -87,27 +87,30 @@ class Fasilitas
 
     public function getGambarList($namaFasilitas)
     {
-        $slug = $this->createSlug($namaFasilitas);
-        $folderPath = __DIR__ . '/../../public/' . $this->gambarBasePath . $slug . '/';
-        $webPath = $this->gambarBasePath . $slug . '/';
-
         $gambar = [];
 
-        if (is_dir($folderPath)) {
+        foreach ($this->resolveFolderCandidates($namaFasilitas) as $folderName) {
+            $folderPath = __DIR__ . '/../../public/' . $this->gambarBasePath . $folderName . '/';
+            $webPath = $this->gambarBasePath . $folderName . '/';
+
+            if (!is_dir($folderPath)) {
+                continue;
+            }
+
             $files = scandir($folderPath);
+            if ($files === false) {
+                continue;
+            }
 
             foreach ($files as $file) {
                 if (preg_match('/\.(jpg|jpeg|png|webp|gif)$/i', $file)) {
                     $gambar[] = $webPath . $file;
                 }
             }
-
-            sort($gambar);
         }
 
-        if (empty($gambar)) {
-            return [];
-        }
+        $gambar = array_values(array_unique($gambar));
+        sort($gambar);
 
         return $gambar;
     }
@@ -208,6 +211,89 @@ class Fasilitas
     {
         $slug = $this->createSlug($namaFasilitas);
         return __DIR__ . '/../../public/' . $this->gambarBasePath . $slug;
+    }
+
+    private function resolveFolderCandidates($namaFasilitas)
+    {
+        $slug = $this->createSlug($namaFasilitas);
+        $baseDir = __DIR__ . '/../../public/' . $this->gambarBasePath;
+        $candidates = [$slug];
+        $aliasMap = [
+            'warung-makan' => ['kantin'],
+            'kantin' => ['warung-makan'],
+            'area-parkir' => ['parkir'],
+            'parkir' => ['area-parkir'],
+            'kolam-renang-dewasa' => ['kolam_dewasa'],
+            'kolam_dewasa' => ['kolam-renang-dewasa'],
+            'kamar-bilas' => ['kamar_bilas'],
+            'kamar_bilas' => ['kamar-bilas'],
+        ];
+
+        if (str_contains($slug, '-')) {
+            $candidates[] = str_replace('-', '_', $slug);
+        }
+
+        if (str_contains($slug, '_')) {
+            $candidates[] = str_replace('_', '-', $slug);
+        }
+
+        if (isset($aliasMap[$slug])) {
+            $candidates = array_merge($candidates, $aliasMap[$slug]);
+        }
+
+        $existingDirs = @scandir($baseDir);
+        if ($existingDirs === false) {
+            return array_values(array_unique($candidates));
+        }
+
+        $existingDirs = array_values(array_filter($existingDirs, function ($dir) use ($baseDir) {
+            return $dir !== '.' && $dir !== '..' && is_dir($baseDir . $dir);
+        }));
+
+        $matched = [];
+        foreach ($candidates as $candidate) {
+            if (in_array($candidate, $existingDirs, true)) {
+                $matched[] = $candidate;
+            }
+        }
+
+        if (!empty($matched)) {
+            return array_values(array_unique($matched));
+        }
+
+        $slugNormalized = $this->normalizeFolderName($slug);
+        foreach ($existingDirs as $dir) {
+            if ($this->normalizeFolderName($dir) === $slugNormalized) {
+                $matched[] = $dir;
+            }
+        }
+
+        if (!empty($matched)) {
+            return array_values(array_unique($matched));
+        }
+
+        $slugTokens = $this->tokenizeFolderName($slug);
+        foreach ($existingDirs as $dir) {
+            $dirTokens = $this->tokenizeFolderName($dir);
+            $sharedTokens = array_intersect($slugTokens, $dirTokens);
+
+            if (count($sharedTokens) >= 2 && (empty(array_diff($dirTokens, $slugTokens)) || empty(array_diff($slugTokens, $dirTokens)))) {
+                $matched[] = $dir;
+            }
+        }
+
+        return array_values(array_unique(array_merge($candidates, $matched)));
+    }
+
+    private function normalizeFolderName($name)
+    {
+        return preg_replace('/[^a-z0-9]/', '', strtolower((string) $name));
+    }
+
+    private function tokenizeFolderName($name)
+    {
+        $tokens = preg_split('/[-_]+/', strtolower((string) $name));
+        return array_values(array_filter($tokens, fn($token) => $token !== ''));
     }
 
     private function deleteDirectoryContents($folderPath)

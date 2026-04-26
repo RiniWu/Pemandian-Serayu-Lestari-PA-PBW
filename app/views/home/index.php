@@ -24,9 +24,8 @@ $BASEURL = base_url();
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar navbar-expand-lg navbar-custom fixed-top" id="mainNavbar">
         <div class="container">
-
             <!-- BRAND -->
-            <a class="navbar-brand d-flex align-items-center gap-3" href="#">
+            <a class="navbar-brand d-flex align-items-center gap-3" href="#beranda">
                 <div class="brand-icon">
                     <i class="bi bi-water"></i>
                 </div>
@@ -36,8 +35,9 @@ $BASEURL = base_url();
             </a>
 
             <!-- TOGGLER -->
-            <button class="navbar-toggler border-0 shadow-none" type="button"
-                data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <button class="navbar-toggler navbar-toggler-custom border-0 shadow-none" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <i class="bi bi-list text-white fs-2"></i>
             </button>
 
@@ -46,37 +46,36 @@ $BASEURL = base_url();
                 <ul class="navbar-nav ms-auto align-items-center gap-2">
 
                     <li class="nav-item">
-                        <a class="nav-link nav-link-custom active" href="#">
+                        <a class="nav-link nav-link-custom active" href="#beranda" data-nav="beranda">
                             <i class="bi bi-house-door me-1"></i>Beranda
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-link-custom" href="#wisata">
+                        <a class="nav-link nav-link-custom" href="#wisata" data-nav="wisata">
                             <i class="bi bi-compass me-1"></i>Wisata
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-link-custom" href="#ulasan">
+                        <a class="nav-link nav-link-custom" href="#ulasan" data-nav="ulasan">
                             <i class="bi bi-chat-dots me-1"></i>Ulasan
                         </a>
                     </li>
 
-                    <li class="nav-item ms-2">
-                        <a href="<?= $BASEURL ?>/galeri" class="btn-nav-cta">
+                    <li class="nav-item">
+                        <a href="<?= $BASEURL ?>/galeri" class="nav-link nav-link-custom" data-nav="galeri">
                             <i class="bi bi-ticket-perforated me-1"></i>Galeri
                         </a>
                     </li>
 
                 </ul>
             </div>
-
         </div>
     </nav>
 
     <!-- ===== HERO ===== -->
-    <section class="hero">
+    <section id="beranda" class="hero">
         <div class="hero-bg-orb orb1"></div>
         <div class="hero-bg-orb orb2"></div>
         <div class="hero-bg-orb orb3"></div>
@@ -468,6 +467,30 @@ $BASEURL = base_url();
         </div>
     </div>
 
+    <!-- ===== CTA ===== -->
+    <div class="container my-5">
+        <div class="cta-box">
+            <div class="cta-orb cta-orb1"></div>
+            <div class="cta-orb cta-orb2"></div>
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h2 class="cta-title">
+                        Siap Merasakan Kesegaran <span>Serayu Lestari?</span>
+                    </h2>
+                    <p class="cta-desc">Kunjungi kami dan rasakan pengalaman wisata air yang tak terlupakan bersama keluarga tercinta.</p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0 d-flex flex-wrap gap-2 justify-content-lg-end">
+                    <a href="#wisata" class="btn-cta-white">
+                        <i class="bi bi-info-circle me-1"></i>Info Wisata
+                    </a>
+                    <a href="#ulasan" class="btn-cta-outline">
+                        <i class="bi bi-pencil me-1"></i>Tulis Ulasan
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== LOKASI ===== -->
     <section id="lokasi" class="section-lokasi">
         <div class="container">
@@ -649,30 +672,6 @@ $BASEURL = base_url();
         </div>
     </section>
 
-    <!-- ===== CTA ===== -->
-    <div class="container my-5">
-        <div class="cta-box">
-            <div class="cta-orb cta-orb1"></div>
-            <div class="cta-orb cta-orb2"></div>
-            <div class="row align-items-center">
-                <div class="col-lg-8">
-                    <h2 class="cta-title">
-                        Siap Merasakan Kesegaran <span>Serayu Lestari?</span>
-                    </h2>
-                    <p class="cta-desc">Kunjungi kami dan rasakan pengalaman wisata air yang tak terlupakan bersama keluarga tercinta.</p>
-                </div>
-                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0 d-flex flex-wrap gap-2 justify-content-lg-end">
-                    <a href="#wisata" class="btn-cta-white">
-                        <i class="bi bi-info-circle me-1"></i>Info Wisata
-                    </a>
-                    <a href="#ulasan" class="btn-cta-outline">
-                        <i class="bi bi-pencil me-1"></i>Tulis Ulasan
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- ===== WAVE ===== -->
     <div class="wave-divider">
         <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -788,30 +787,56 @@ $BASEURL = base_url();
             .forEach(el => observer.observe(el));
 
         // ===== Active nav link berdasarkan scroll =====
-        const sections = document.querySelectorAll('section[id], footer[id]');
-        const navLinks = document.querySelectorAll('.nav-link-custom');
+        const navbar = document.getElementById('mainNavbar');
+        const navMenu = document.getElementById('navMenu');
+        const navLinks = Array.from(document.querySelectorAll('.nav-link-custom[href^="#"]'));
+        const sections = navLinks
+            .map(link => document.querySelector(link.getAttribute('href')))
+            .filter(Boolean);
 
-        const navObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    navLinks.forEach(link => link.classList.remove('active'));
-                    const activeLink = document.querySelector(`.nav-link-custom[href="#${entry.target.id}"]`);
-                    if (activeLink) activeLink.classList.add('active');
+        function setActiveNavLink(targetLink) {
+            navLinks.forEach(link => link.classList.remove('active'));
+            if (targetLink) targetLink.classList.add('active');
+        }
+
+        function updateActiveNavByScroll() {
+            const navbarHeight = navbar ? navbar.offsetHeight : 0;
+            const scrollMarker = window.scrollY + navbarHeight + 48;
+            let currentSection = sections[0] || null;
+
+            sections.forEach(section => {
+                if (scrollMarker >= section.offsetTop) {
+                    currentSection = section;
                 }
             });
-        }, {
-            threshold: 0.4
+
+            if (!currentSection) return;
+
+            const activeLink = navLinks.find(link => link.getAttribute('href') === ('#' + currentSection.id));
+            setActiveNavLink(activeLink);
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                setActiveNavLink(this);
+
+                if (navMenu && navMenu.classList.contains('show') && window.bootstrap?.Collapse) {
+                    window.bootstrap.Collapse.getOrCreateInstance(navMenu).hide();
+                }
+            });
         });
 
-        sections.forEach(sec => navObserver.observe(sec));
+        updateActiveNavByScroll();
 
-        // ===== 🔥 Navbar scroll effect (INI YANG BARU) =====
-        window.addEventListener("scroll", function() {
-            const navbar = document.querySelector(".navbar-custom");
+        // ===== Navbar scroll effect =====
+        window.addEventListener('scroll', function() {
             if (navbar) {
-                navbar.classList.toggle("scrolled", window.scrollY > 20);
+                navbar.classList.toggle('scrolled', window.scrollY > 20);
             }
+            updateActiveNavByScroll();
         });
+
+        window.addEventListener('resize', updateActiveNavByScroll);
     </script>
 
     <script>
@@ -848,3 +873,6 @@ $BASEURL = base_url();
 </body>
 
 </html>
+
+
+

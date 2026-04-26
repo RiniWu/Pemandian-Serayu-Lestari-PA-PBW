@@ -1,25 +1,7 @@
 <?php
 $BASEURL = base_url();
-
-// Kategori gambar - sesuaikan nama file dengan kategori yang pas
-$kategoriMap = [
-    'img1'  => 'kolam',
-    'img2'  => 'kolam',
-    'img3'  => 'area',
-    'img4'  => 'kolam',
-    'img5'  => 'fasilitas',
-    'img6'  => 'fasilitas',
-    'img7'  => 'area',
-    'img8'  => 'area',
-    'img9'  => 'kolam',
-    'img10' => 'fasilitas',
-];
-
-$kategoriLabel = [
-    'kolam'     => 'Kolam Renang',
-    'fasilitas' => 'Fasilitas',
-    'area'      => 'Area Wisata',
-];
+$allImages = $allImages ?? [];
+$filters = $filters ?? [];
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -36,8 +18,8 @@ $kategoriLabel = [
 
     <style>
         body {
-            background: #05101e;
-            color: #fff;
+            background: #ffffff;
+            color: #0f172a;
             font-family: 'Poppins', sans-serif;
         }
 
@@ -58,7 +40,7 @@ $kategoriLabel = [
         .galeri-header {
             padding: 110px 0 50px;
             text-align: center;
-            background: linear-gradient(180deg, #051524 0%, #05101e 100%);
+            background: linear-gradient(180deg, #f8fbff 0%, #eef6ff 100%);
             position: relative;
             overflow: hidden;
         }
@@ -75,10 +57,34 @@ $kategoriLabel = [
             pointer-events: none;
         }
 
+        .galeri-header::after {
+            content: '';
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background: rgba(30, 64, 175, 0.08);
+            top: 28px;
+            left: 56px;
+            pointer-events: none;
+        }
+
+        .galeri-bubble-bottom {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(0, 183, 255, 0.08);
+            bottom: -70px;
+            right: 70px;
+            pointer-events: none;
+        }
+
         .galeri-header h1 {
             font-size: clamp(2rem, 5vw, 3.2rem);
             font-weight: 800;
             margin-bottom: 10px;
+            color: #0f172a;
         }
 
         .galeri-header h1 span {
@@ -86,7 +92,7 @@ $kategoriLabel = [
         }
 
         .galeri-header p {
-            color: rgba(255, 255, 255, 0.55);
+            color: #64748b;
             max-width: 440px;
             margin: 0 auto 24px;
         }
@@ -111,14 +117,85 @@ $kategoriLabel = [
             flex-wrap: wrap;
             gap: 10px;
             padding: 30px 0 36px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .galeri-content-wrap {
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 40px;
+        }
+
+        .galeri-content-wrap::before {
+            content: '';
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background: rgba(30, 64, 175, 0.05);
+            top: 30px;
+            left: 40px;
+            pointer-events: none;
+        }
+
+        .galeri-content-wrap::after {
+            content: '';
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(0, 183, 255, 0.06);
+            right: 70px;
+            bottom: 40px;
+            pointer-events: none;
+        }
+
+        .galeri-content-bubble {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .galeri-content-bubble.b1 {
+            width: 140px;
+            height: 140px;
+            top: 120px;
+            right: 140px;
+            background: rgba(59, 130, 246, 0.06);
+        }
+
+        .galeri-content-bubble.b2 {
+            width: 90px;
+            height: 90px;
+            top: 360px;
+            left: 180px;
+            background: rgba(14, 165, 233, 0.08);
+        }
+
+        .galeri-content-bubble.b3 {
+            width: 170px;
+            height: 170px;
+            bottom: 180px;
+            left: 34%;
+            background: rgba(30, 64, 175, 0.05);
+        }
+
+        .galeri-content-bubble.b4 {
+            width: 110px;
+            height: 110px;
+            bottom: 70px;
+            right: 24%;
+            background: rgba(6, 182, 212, 0.07);
         }
 
         .filter-btn {
             padding: 8px 22px;
             border-radius: 50px;
-            border: 1.5px solid rgba(255, 255, 255, 0.15);
-            background: transparent;
-            color: rgba(255, 255, 255, 0.55);
+            border: 1.5px solid rgba(15, 23, 42, 0.12);
+            background: #fff;
+            color: #64748b;
             font-family: 'Poppins', sans-serif;
             font-size: 0.87rem;
             font-weight: 500;
@@ -140,6 +217,8 @@ $kategoriLabel = [
             columns: 4;
             column-gap: 12px;
             padding-bottom: 80px;
+            position: relative;
+            z-index: 1;
         }
 
         @media (max-width: 1200px) {
@@ -239,7 +318,7 @@ $kategoriLabel = [
         .galeri-empty {
             text-align: center;
             padding: 80px 20px;
-            color: rgba(255, 255, 255, 0.35);
+            color: #64748b;
         }
 
         .galeri-empty i {
@@ -444,6 +523,7 @@ $kategoriLabel = [
 
     <!-- HEADER -->
     <div class="galeri-header">
+        <div class="galeri-bubble-bottom"></div>
         <div class="container">
             <h1>Galeri <span>Foto</span></h1>
             <p>Lihat keindahan dan suasana Pemandian Serayu Lestari melalui koleksi foto kami</p>
@@ -456,53 +536,54 @@ $kategoriLabel = [
 
     <!-- FILTER -->
     <div class="container">
-        <div class="galeri-filter">
-            <button class="filter-btn active" data-filter="semua">
-                <i class="bi bi-grid-3x3-gap me-1"></i>Semua
-            </button>
-            <button class="filter-btn" data-filter="kolam">
-                <i class="bi bi-droplet me-1"></i>Kolam Renang
-            </button>
-            <button class="filter-btn" data-filter="fasilitas">
-                <i class="bi bi-building me-1"></i>Fasilitas
-            </button>
-            <button class="filter-btn" data-filter="area">
-                <i class="bi bi-tree me-1"></i>Area Wisata
-            </button>
-        </div>
-
-        <!-- GRID -->
-        <?php if (!empty($allImages)): ?>
-            <div class="galeri-grid" id="galeriGrid">
-                <?php foreach ($allImages as $i => $file):
-                    $basename = pathinfo($file, PATHINFO_FILENAME);
-                    $kat      = $kategoriMap[$basename] ?? 'area';
-                    $label    = $kategoriLabel[$kat];
-                    $delay    = ($i % 8) * 55;
-                ?>
-                    <div class="galeri-item"
-                        data-kategori="<?= $kat ?>"
-                        data-index="<?= $i ?>"
-                        style="animation-delay:<?= $delay ?>ms"
-                        onclick="bukaLB(<?= $i ?>)">
-
-                        <img src="<?= $BASEURL ?>/<?= htmlspecialchars($file) ?>"
-                            alt="Foto <?= htmlspecialchars($label) ?>"
-                            loading="lazy">
-
-                        <div class="galeri-overlay">
-                            <span class="galeri-badge"><?= htmlspecialchars($label) ?></span>
-                        </div>
-                        <div class="galeri-zoom"><i class="bi bi-zoom-in"></i></div>
-                    </div>
+        <div class="galeri-content-wrap">
+            <div class="galeri-content-bubble b1"></div>
+            <div class="galeri-content-bubble b2"></div>
+            <div class="galeri-content-bubble b3"></div>
+            <div class="galeri-content-bubble b4"></div>
+            <div class="galeri-filter">
+                <button class="filter-btn active" data-filter="semua">
+                    <i class="bi bi-grid-3x3-gap me-1"></i>Semua
+                </button>
+                <?php foreach ($filters as $filter): ?>
+                    <button class="filter-btn" data-filter="<?= htmlspecialchars($filter['key']) ?>">
+                        <i class="bi bi-building me-1"></i><?= htmlspecialchars($filter['label']) ?>
+                    </button>
                 <?php endforeach; ?>
             </div>
-        <?php else: ?>
-            <div class="galeri-empty">
-                <i class="bi bi-image-alt"></i>
-                <p>Belum ada foto.<br>Tambahkan file <code>img*.jpg</code> ke <code>public/assets/images/</code></p>
-            </div>
-        <?php endif; ?>
+
+            <!-- GRID -->
+            <?php if (!empty($allImages)): ?>
+                <div class="galeri-grid" id="galeriGrid">
+                    <?php foreach ($allImages as $i => $item):
+                        $kat      = $item['kategori'] ?? 'fasilitas';
+                        $label    = $item['label'] ?? 'Fasilitas';
+                        $delay    = ($i % 8) * 55;
+                    ?>
+                        <div class="galeri-item"
+                            data-kategori="<?= $kat ?>"
+                            data-index="<?= $i ?>"
+                            style="animation-delay:<?= $delay ?>ms"
+                            onclick="bukaLB(<?= $i ?>)">
+
+                            <img src="<?= $BASEURL ?>/<?= htmlspecialchars($item['src']) ?>"
+                                alt="Foto <?= htmlspecialchars($label) ?>"
+                                loading="lazy">
+
+                            <div class="galeri-overlay">
+                                <span class="galeri-badge"><?= htmlspecialchars($label) ?></span>
+                            </div>
+                            <div class="galeri-zoom"><i class="bi bi-zoom-in"></i></div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <div class="galeri-empty">
+                    <i class="bi bi-image-alt"></i>
+                    <p>Belum ada foto.<br>Tambahkan foto dari halaman admin <code>Data Fasilitas</code>.</p>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
 
     <!-- LIGHTBOX -->
@@ -526,9 +607,10 @@ $kategoriLabel = [
     <script>
         // Build data array dari PHP
         const semuaFoto = [
-            <?php foreach ($allImages as $file): ?> {
-                    src: "<?= $BASEURL ?>/<?= htmlspecialchars($file) ?>",
-                    kat: "<?= $kategoriMap[pathinfo($file, PATHINFO_FILENAME)] ?? 'area' ?>"
+            <?php foreach ($allImages as $item): ?> {
+                    src: "<?= $BASEURL ?>/<?= htmlspecialchars($item['src']) ?>",
+                    kat: "<?= htmlspecialchars($item['kategori'] ?? 'fasilitas') ?>",
+                    label: "<?= htmlspecialchars($item['label'] ?? 'Fasilitas') ?>"
                 },
             <?php endforeach; ?>
         ];
