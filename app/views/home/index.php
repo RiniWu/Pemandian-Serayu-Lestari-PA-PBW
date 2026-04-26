@@ -32,7 +32,6 @@ $BASEURL = base_url();
                 </div>
                 <div>
                     <div class="brand-name">Pemandian Serayu Lestari</div>
-                    <div class="d-block brand-tagline">Wisata Air Keluarga</div>
                 </div>
             </a>
 
@@ -65,8 +64,8 @@ $BASEURL = base_url();
                     </li>
 
                     <li class="nav-item ms-2">
-                        <a href="#wisata" class="btn-nav-cta">
-                            <i class="bi bi-ticket-perforated me-1"></i>Jelajahi
+                        <a href="<?= $BASEURL ?>/galeri" class="btn-nav-cta">
+                            <i class="bi bi-ticket-perforated me-1"></i>Galeri
                         </a>
                     </li>
 
@@ -143,7 +142,7 @@ $BASEURL = base_url();
                 </div>
 
                 <!-- KANAN -->
-                <div class="col-lg-6"> <!-- 🔥 diperbesar dari 6 ke 7 -->
+                <div class="col-lg-6">
                     <div class="hero-visual">
 
                         <div class="hero-badge-family">
@@ -184,13 +183,31 @@ $BASEURL = base_url();
         <div id="carouselSerayu" class="carousel slide rounded-4 overflow-hidden shadow-lg" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="<?= $BASEURL ?>/assets/images/img2.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 1">
+                    <img src="<?= $BASEURL ?>/assets/images/img9.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 1">
                 </div>
                 <div class="carousel-item">
-                    <img src="<?= $BASEURL ?>/assets/images/img3.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 2">
+                    <img src="<?= $BASEURL ?>/assets/images/img4.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 2">
                 </div>
                 <div class="carousel-item">
-                    <img src="<?= $BASEURL ?>/assets/images/img4.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 3">
+                    <img src="<?= $BASEURL ?>/assets/images/img5.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 3">
+                </div>
+                <div class="carousel-item">
+                    <img src="<?= $BASEURL ?>/assets/images/img6.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 3">
+                </div>
+                <div class="carousel-item">
+                    <img src="<?= $BASEURL ?>/assets/images/img7.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 3">
+                </div>
+                <div class="carousel-item">
+                    <img src="<?= $BASEURL ?>/assets/images/img8.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 3">
+                </div>
+                <div class="carousel-item">
+                    <img src="<?= $BASEURL ?>/assets/images/img1.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 3">
+                </div>
+                <div class="carousel-item">
+                    <img src="<?= $BASEURL ?>/assets/images/img10.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 3">
+                </div>
+                <div class="carousel-item">
+                    <img src="<?= $BASEURL ?>/assets/images/img2.jpg" class="d-block w-100 carousel-img" alt="Foto Pemandian 3">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselSerayu" data-bs-slide="prev">
@@ -276,30 +293,55 @@ $BASEURL = base_url();
             </div>
 
             <div class="row g-4 mt-3">
+
+                <!-- KIRI -->
                 <div class="col-lg-5">
-                    <div class="wisata-card">
-                        <div class="wisata-card-img">
-                            <?php if (!empty($d['gambar'])): ?>
-                                <img src="<?= $BASEURL ?>/assets/images/<?= htmlspecialchars($d['gambar']) ?>" alt="Foto <?= htmlspecialchars($d['nama'] ?? 'Wisata') ?>">
-                            <?php else: ?>
-                                <div class="wisata-img-placeholder"><i class="bi bi-image"></i></div>
-                            <?php endif; ?>
-                            <span class="wisata-badge-buka">● Buka</span>
-                        </div>
-                        <div class="wisata-card-body">
-                            <h5><?= htmlspecialchars($d['nama'] ?? 'Pemandian Serayu Lestari') ?></h5>
-                            <p><?= htmlspecialchars(substr($d['deskripsi'] ?? '', 0, 100)) ?>...</p>
-                            <div class="wisata-info">
-                                <span><i class="bi bi-geo-alt"></i> <?= htmlspecialchars($d['lokasi'] ?? '') ?></span>
-                                <span><i class="bi bi-clock"></i> <?= htmlspecialchars($d['jam_buka'] ?? '') ?></span>
-                                <span class="wisata-harga">
-                                    <i class="bi bi-people"></i> Dewasa: <?= htmlspecialchars($d['harga_tiket'] ?? '') ?>
-                                </span>
+                    <div class="wisata-card d-flex flex-column h-100">
+
+                        <div class="wisata-card-img flex-grow-1">
+
+                            <div id="carouselWisata" class="carousel slide h-100" data-bs-ride="carousel">
+                                <div class="carousel-inner h-100">
+
+                                    <?php
+                                    $files = glob("assets/images/img*.{jpg,jpeg,png,webp}", GLOB_BRACE);
+
+                                    sort($files);
+                                    ?>
+
+                                    <?php if (!empty($files)): ?>
+                                        <?php foreach ($files as $index => $file): ?>
+
+                                            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?> h-100">
+                                                <img src="<?= $BASEURL ?>/<?= $file ?>"
+                                                    class="d-block w-100 h-100"
+                                                    style="object-fit: cover;">
+                                            </div>
+
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <div class="carousel-item active h-100">
+                                            <div class="wisata-img-placeholder d-flex align-items-center justify-content-center h-100">
+                                                <i class="bi bi-image fs-1"></i>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+
+                                </div>
+
+                                <!-- tombol -->
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselWisata" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon"></span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselWisata" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon"></span>
+                                </button>
                             </div>
-                            <a href="#tentang" class="btn btn-detail w-100 mt-3">
-                                <i class="bi bi-info-circle me-2"></i>Lihat Detail
-                            </a>
+
+                            <span id="statusWisata" class="wisata-badge-buka">● Buka</span>
+
                         </div>
+
                     </div>
                 </div>
 
@@ -348,7 +390,6 @@ $BASEURL = base_url();
     <!-- ===== FASILITAS ===== -->
     <section class="section-fasilitas">
         <div class="container">
-            <div class="section-label text-center">LENGKAP & NYAMAN</div>
             <h2 class="section-title-main text-center">Fasilitas <span>Tersedia</span></h2>
 
             <div class="row g-3 mt-4">
@@ -356,23 +397,38 @@ $BASEURL = base_url();
                 $index = 0;
                 foreach ($fasilitasList as $f) {
                     $gambarArray = !empty($f['gambar_list']) ? $f['gambar_list'] : ['assets/images/img1.jpg'];
-                    $gambarJson = json_encode($gambarArray);
-                    $nama = htmlspecialchars($f['nama'], ENT_QUOTES);
-                    $deskripsi = htmlspecialchars($f['deskripsi'], ENT_QUOTES);
-                    $icon = htmlspecialchars($f['icon'] ?: 'bi-image');
-                    $jumlahGambar = count($gambarArray);
+                    $gambarJson  = json_encode($gambarArray);
+                    $nama        = htmlspecialchars($f['nama'], ENT_QUOTES);
+                    $deskripsi   = htmlspecialchars($f['deskripsi'], ENT_QUOTES);
+
+                    // Foto thumbnail utama = foto pertama dari gambar_list
+                    $thumbSrc = $BASEURL . '/' . ($gambarArray[0] ?? 'assets/images/img1.jpg');
                 ?>
-                    <div class="col-6 col-md-3">
-                        <div class="fasilitas-card"
-                            onclick='bukaLightbox(<?php echo $index; ?>, "<?php echo $nama; ?>", "<?php echo $deskripsi; ?>", <?php echo $gambarJson; ?>)'>
-                            <div class="fasilitas-icon">
-                                <i class="bi <?php echo $icon; ?>"></i>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="fasilitas-card-img"
+                            onclick='bukaLightbox(<?= $index ?>, "<?= $nama ?>", "<?= $deskripsi ?>", <?= $gambarJson ?>)'>
+
+                            <!-- Foto -->
+                            <div class="fas-img-wrap">
+                                <img src="<?= $thumbSrc ?>"
+                                    alt="<?= $nama ?>"
+                                    class="fas-img"
+                                    loading="lazy">
+                                <!-- overlay gelap saat hover -->
+                                <div class="fas-hover-overlay">
+                                    <i class="bi bi-zoom-in"></i>
+                                </div>
+                                <!-- badge jumlah foto -->
+                                <span class="fas-foto-badge">
+                                    <i class="bi bi-images"></i> <?= count($gambarArray) ?>
+                                </span>
                             </div>
-                            <p><?php echo htmlspecialchars($f['nama']); ?></p>
-                            <small class="text-muted">
-                                <i class="bi bi-images"></i> Lihat Galeri
-                                <span class="badge-gambar"><?php echo $jumlahGambar; ?></span>
-                            </small>
+
+                            <!-- Nama fasilitas -->
+                            <div class="fas-body">
+                                <p class="fas-nama"><?= htmlspecialchars($f['nama']) ?></p>
+                            </div>
+
                         </div>
                     </div>
                 <?php
@@ -756,6 +812,38 @@ $BASEURL = base_url();
                 navbar.classList.toggle("scrolled", window.scrollY > 20);
             }
         });
+    </script>
+
+    <script>
+        function cekStatusWisata() {
+            // Jam operasional
+            const jamBuka = 8.5; // 08:30
+            const jamTutup = 17.5; // 17:30
+
+            // Ambil waktu WITA (Asia/Makassar)
+            const sekarang = new Date().toLocaleString("en-US", {
+                timeZone: "Asia/Makassar"
+            });
+
+            const waktu = new Date(sekarang);
+            const jam = waktu.getHours() + (waktu.getMinutes() / 60);
+
+            const status = document.getElementById("statusWisata");
+
+            if (jam >= jamBuka && jam <= jamTutup) {
+                status.innerHTML = "● Buka";
+                status.style.backgroundColor = "#28a745"; // hijau
+            } else {
+                status.innerHTML = "● Tutup";
+                status.style.backgroundColor = "#dc3545"; // merah
+            }
+        }
+
+        // jalan saat halaman dibuka
+        cekStatusWisata();
+
+        // optional: update tiap 1 menit
+        setInterval(cekStatusWisata, 60000);
     </script>
 </body>
 

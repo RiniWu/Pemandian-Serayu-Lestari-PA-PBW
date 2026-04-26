@@ -106,7 +106,6 @@ img {
 /* ---- Scroll reveal ---- */
 .feature-card,
 .ulasan-card,
-.fasilitas-card,
 .wisata-card,
 .tentang-card {
   opacity: 0;
@@ -117,14 +116,28 @@ img {
 }
 .feature-card.visible,
 .ulasan-card.visible,
-.fasilitas-card.visible,
 .wisata-card.visible,
 .tentang-card.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Ulasan yang disembunyikan (dipakai JS "lihat semua") */
+/* Fasilitas card scroll reveal — dipisah karena pakai class berbeda */
+.fas-card {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+.fas-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ulasan tersembunyi */
 .ulasan-hidden {
   display: none;
 }
@@ -133,7 +146,6 @@ img {
    NAVBAR
 ========================= */
 .navbar-custom {
-  background: transparent;
   background: linear-gradient(
     to bottom,
     rgba(13, 43, 79, 0.85),
@@ -150,13 +162,6 @@ img {
   background: rgba(13, 43, 79, 0.95);
   box-shadow: 0 10px 30px var(--blue-700);
   padding: 8px 0;
-}
-
-.navbar-custom .navbar-toggler {
-  border-color: var(--blue-400);
-}
-.navbar-custom .navbar-toggler-icon {
-  filter: invert(1);
 }
 
 .brand-icon {
@@ -180,7 +185,6 @@ img {
   line-height: 1.2;
 }
 
-/* Diperbaiki: HTML pakai .brand-tagline bukan .brand-sub */
 .brand-tagline {
   font-size: 10px;
   color: rgba(255, 255, 255, 0.6);
@@ -188,7 +192,6 @@ img {
   letter-spacing: 0.5px;
 }
 
-/* Nav links */
 .nav-link-custom {
   color: var(--blue-50) !important;
   font-size: 14px;
@@ -197,7 +200,6 @@ img {
   transition:
     background 0.2s,
     color 0.2s;
-  position: relative;
 }
 
 .nav-link-custom:hover,
@@ -207,7 +209,6 @@ img {
   border-radius: 12px;
 }
 
-/* CTA button di navbar */
 .btn-nav-cta {
   background: linear-gradient(135deg, #38bdf8, #22d3ee);
   color: #fff !important;
@@ -260,7 +261,6 @@ img {
   z-index: 1;
 }
 
-/* Decorative orbs */
 .hero-bg-orb {
   max-width: 100%;
   position: absolute;
@@ -289,7 +289,6 @@ img {
   background: rgba(255, 255, 255, 0.03);
 }
 
-/* Location badge */
 .badge-location {
   display: inline-flex;
   align-items: center;
@@ -302,7 +301,6 @@ img {
   backdrop-filter: blur(4px);
 }
 
-/* Title */
 .hero-title {
   font-size: clamp(2.2rem, 5vw, 3.4rem);
   font-weight: 800;
@@ -321,7 +319,6 @@ img {
   line-height: 1.7;
 }
 
-/* Buttons */
 .hero-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -350,7 +347,6 @@ img {
   color: #fff;
 }
 
-/* Diperbaiki: hilangkan margin-left hardcoded karena parent sudah pakai gap */
 .btn-hero-outline {
   background: transparent;
   color: #fff;
@@ -369,7 +365,6 @@ img {
   color: #fff;
 }
 
-/* Stats */
 .hero-stats {
   display: flex;
   align-items: center;
@@ -394,7 +389,6 @@ img {
   flex-shrink: 0;
 }
 
-/* Visual / image side */
 .hero-visual {
   position: relative;
   display: flex;
@@ -421,7 +415,6 @@ img {
   white-space: nowrap;
 }
 
-/* Diperbaiki: hapus width: 200% yang menyebabkan overflow */
 .hero-img-card {
   width: 100%;
   max-width: 520px;
@@ -460,33 +453,27 @@ img {
   color: rgba(255, 255, 255, 0.4);
 }
 
-/* Scroll hint */
 .hero-scroll-hint {
   position: absolute;
   bottom: 25px;
   left: 50%;
   transform: translateX(-50%);
 }
-
 .hero-scroll-hint a {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-decoration: none;
 }
-
 .hero-scroll-hint i {
   font-size: 18px;
   color: rgba(255, 255, 255, 0.6);
   line-height: 8px;
 }
-
-/* delay biar bertingkat */
 .hero-scroll-hint i:nth-child(2) {
   margin-top: -6px;
 }
 
-/* Animations */
 @keyframes float {
   0%,
   100% {
@@ -494,15 +481,6 @@ img {
   }
   50% {
     transform: translateY(-8px);
-  }
-}
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateX(-50%) translateY(0);
-  }
-  50% {
-    transform: translateX(-50%) translateY(8px);
   }
 }
 @keyframes fadeInUp {
@@ -515,7 +493,6 @@ img {
     transform: translateY(0);
   }
 }
-
 .hero-content {
   animation: fadeInUp 0.7s ease both;
 }
@@ -542,11 +519,6 @@ img {
   border-radius: 20px;
   padding: 32px 24px;
   box-shadow: var(--card-shadow);
-  transition:
-    transform 0.3s,
-    box-shadow 0.3s,
-    opacity 0.5s,
-    transform 0.5s;
   border: 1px solid rgba(0, 0, 0, 0.05);
   height: 100%;
   position: relative;
@@ -556,11 +528,9 @@ img {
   transform: translateY(-6px);
   box-shadow: 0 16px 40px rgba(13, 43, 79, 0.14);
 }
-
 .feature-card:hover .feature-icon {
   transform: translateY(-3px) scale(1.05);
 }
-
 .feature-card::before {
   content: "";
   position: absolute;
@@ -587,6 +557,7 @@ img {
   position: relative;
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s;
 }
 .feature-icon.bg-blue {
   background: linear-gradient(135deg, #38bdf8, #0284c7);
@@ -603,7 +574,6 @@ img {
 .feature-icon.bg-teal {
   background: linear-gradient(135deg, #14b8a6, #0d9488);
 }
-
 .feature-icon::after {
   content: "";
   position: absolute;
@@ -621,11 +591,13 @@ img {
   font-size: 1.2rem;
   margin-bottom: 10px;
   color: #0f172a;
+  position: relative;
 }
 .feature-card p {
   color: #64748b;
   font-size: 14px;
   line-height: 1.6;
+  position: relative;
 }
 
 /* =========================
@@ -664,13 +636,23 @@ img {
 }
 .wisata-card-img {
   position: relative;
+  height: 100%;
+  overflow: hidden;
 }
+
+.carousel,
+.carousel-inner,
+.carousel-item {
+  height: 100%;
+}
+
 .wisata-card-img img {
   width: 100%;
-  height: 220px;
+  height: 100%;
   object-fit: cover;
   display: block;
 }
+
 .wisata-img-placeholder {
   width: 100%;
   height: 220px;
@@ -692,53 +674,7 @@ img {
   padding: 3px 10px;
   border-radius: 20px;
 }
-.wisata-card-body {
-  padding: 20px;
-}
-.wisata-card-body h5 {
-  font-weight: 700;
-  color: #0d2b4f;
-  margin-bottom: 8px;
-}
-.wisata-info {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 12px;
-}
-.wisata-info span {
-  font-size: 12px;
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.wisata-harga {
-  color: #0d2b4f !important;
-  font-weight: 600;
-}
 
-.btn-detail {
-  background: linear-gradient(90deg, var(--blue-accent), var(--blue-mid));
-  color: #fff !important;
-  border: none;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 13px;
-  transition:
-    opacity 0.2s,
-    transform 0.2s;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-.btn-detail:hover {
-  opacity: 0.88;
-  transform: translateY(-1px);
-}
-
-/* Tentang */
 .tentang-card {
   background: #fff;
   border-radius: var(--radius);
@@ -794,114 +730,104 @@ img {
 ========================= */
 .section-fasilitas {
   padding: 90px 0;
-  background:
-    radial-gradient(circle at top center, rgba(79, 209, 255, 0.12), transparent 35%),
-    linear-gradient(180deg, #f4f9ff 0%, #edf5ff 100%);
+  /* Dark theme — sesuai card */
+  background: var(--bg-light);
 }
 
-.fasilitas-card {
-  background: linear-gradient(145deg, #ffffff, #f6fbff);
-  border-radius: var(--radius);
-  box-shadow: var(--card-shadow);
-  border: 1px solid rgba(37, 137, 216, 0.12);
-  padding: 28px 22px;
-  height: 100%;
-  text-align: center;
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease,
-    border-color 0.3s ease,
-    opacity 0.5s ease;
+/* ---- Card Fasilitas (dengan gambar) ---- */
+.fas-card {
+  background: #ffffff;
+  border: 1px solid rgba(13, 74, 139, 0.1);
+  border-radius: 14px;
+  overflow: hidden;
   cursor: pointer;
+  /* transition sudah di scroll reveal di atas */
+}
+
+.fas-card:hover {
+  transform: translateY(-5px) !important; /* override scroll reveal transform */
+  box-shadow: 0 12px 36px rgba(0, 183, 255, 0.2);
+  border-color: rgba(0, 183, 255, 0.4);
+}
+
+/* Bagian gambar */
+.fas-img-wrap {
   position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
 }
 
-.fasilitas-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 18px 45px rgba(13, 74, 139, 0.16);
-  border-color: rgba(0, 198, 255, 0.35);
+.fas-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
 }
 
-.fasilitas-icon {
-  width: 68px;
-  height: 68px;
-  margin: 0 auto 18px;
-  border-radius: 20px;
+.fas-card:hover .fas-img {
+  transform: scale(1.07);
+}
+
+/* Overlay zoom saat hover */
+.fas-hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 21, 36, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(0, 198, 255, 0.18), rgba(79, 209, 255, 0.3));
-  color: var(--blue-700);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  opacity: 0;
+  transition: opacity 0.3s;
+  color: #fff;
+  font-size: 1.5rem;
 }
 
-.fasilitas-icon i {
-  font-size: 1.7rem;
+.fas-card:hover .fas-hover-overlay {
+  opacity: 1;
 }
 
-.fasilitas-card p {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #27466c;
+/* Badge jumlah foto pojok kanan atas */
+.fas-foto-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(13, 43, 79, 0.75);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(0, 183, 255, 0.35);
+  color: #00c6ff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1.4;
+}
+
+/* Bagian nama di bawah gambar */
+.fas-body {
+  padding: 10px 13px 12px;
+  background: #ffffff;
+  border-top: 1px solid rgba(13, 74, 139, 0.08);
+}
+
+.fas-nama {
   margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0d2b4f;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* =========================
-   LIGHTBOX - UPDATE
+   LIGHTBOX
 ========================= */
-
-/* Update fasilitas card untuk lightbox */
-.fasilitas-card {
-  position: relative;
-  overflow: hidden;
-}
-
-.fasilitas-card::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--blue-accent), var(--blue-light));
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
-
-.fasilitas-card:hover::after {
-  transform: scaleX(1);
-}
-
-.fasilitas-card small {
-  display: block;
-  margin-top: 8px;
-  font-size: 0.75rem;
-  color: var(--blue-accent);
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
-.fasilitas-card:hover small {
-  color: var(--blue-dark);
-}
-
-/* Badge jumlah gambar */
-.badge-gambar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  background: var(--blue-accent);
-  color: #fff;
-  border-radius: 50%;
-  font-size: 0.7rem;
-  font-weight: 600;
-  margin-left: 4px;
-}
-
-/* Lightbox Overlay */
 .lightbox-overlay {
   display: none;
   position: fixed;
@@ -915,11 +841,9 @@ img {
   align-items: center;
   animation: fadeIn 0.3s ease;
 }
-
 .lightbox-overlay.active {
   display: flex;
 }
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -940,7 +864,6 @@ img {
   animation: slideUp 0.3s ease;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
 }
-
 @keyframes slideUp {
   from {
     transform: translateY(50px);
@@ -952,7 +875,6 @@ img {
   }
 }
 
-/* Tombol Close */
 .lightbox-close {
   position: absolute;
   top: 15px;
@@ -971,14 +893,12 @@ img {
   transition: all 0.3s;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
-
 .lightbox-close:hover {
   background: #dc3545;
   color: #fff;
   transform: rotate(90deg);
 }
 
-/* Tombol Navigasi */
 .lightbox-nav {
   position: absolute;
   top: 50%;
@@ -997,12 +917,10 @@ img {
   transition: all 0.3s;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
-
 .lightbox-nav:hover {
   background: var(--blue-accent);
   color: #fff;
 }
-
 .lightbox-prev {
   left: 15px;
 }
@@ -1010,7 +928,6 @@ img {
   right: 15px;
 }
 
-/* Konten */
 .lightbox-content {
   display: flex;
   flex-direction: column;
@@ -1028,16 +945,14 @@ img {
   padding: 20px 30px;
   background: #fff;
 }
-
 .lightbox-info h3 {
-  margin: 0 0 10px 0;
+  margin: 0 0 10px;
   color: #1a2e45;
   font-size: 1.5rem;
   font-weight: 600;
 }
-
 .lightbox-info p {
-  margin: 0 0 15px 0;
+  margin: 0 0 15px;
   color: #666;
   line-height: 1.6;
 }
@@ -1052,7 +967,6 @@ img {
   display: inline-block;
 }
 
-/* Thumbnails */
 .lightbox-thumbnails {
   display: flex;
   gap: 10px;
@@ -1062,7 +976,6 @@ img {
   justify-content: center;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
-
 .lightbox-thumbnails img {
   width: 80px;
   height: 60px;
@@ -1074,12 +987,10 @@ img {
   opacity: 0.6;
   flex-shrink: 0;
 }
-
 .lightbox-thumbnails img:hover {
   opacity: 0.9;
   transform: scale(1.05);
 }
-
 .lightbox-thumbnails img.active {
   border-color: var(--blue-accent);
   opacity: 1;
@@ -1087,49 +998,6 @@ img {
   box-shadow: 0 2px 8px rgba(0, 198, 255, 0.3);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .lightbox-container {
-    max-width: 95%;
-    max-height: 95vh;
-    width: 95%;
-  }
-
-  .lightbox-nav {
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
-  }
-
-  .lightbox-prev {
-    left: 5px;
-  }
-  .lightbox-next {
-    right: 5px;
-  }
-
-  #lightbox-img {
-    height: 250px;
-  }
-
-  .lightbox-info {
-    padding: 15px 20px;
-  }
-
-  .lightbox-info h3 {
-    font-size: 1.2rem;
-  }
-
-  .lightbox-thumbnails {
-    padding: 10px 15px;
-    justify-content: flex-start;
-  }
-
-  .lightbox-thumbnails img {
-    width: 60px;
-    height: 45px;
-  }
-}
 /* =========================
    LOKASI
 ========================= */
@@ -1149,38 +1017,38 @@ img {
 
 .lokasi-info-row {
   display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-  background: #fff;
-  border-radius: var(--radius);
-  padding: 24px 28px;
-  box-shadow: var(--card-shadow);
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  background: #f8f9fb;
+  padding: 25px 35px;
+  border-radius: 16px;
 }
 .lokasi-info-item {
   display: flex;
-  gap: 12px;
   align-items: flex-start;
+  gap: 14px;
   flex: 1;
-  min-width: 200px;
 }
 .lokasi-info-item i {
-  color: var(--blue-accent);
-  font-size: 1.3rem;
-  margin-top: 2px;
+  font-size: 20px;
+  color: #0d6efd;
+  background: #e6f4ff;
+  padding: 10px;
+  border-radius: 10px;
   flex-shrink: 0;
 }
 .lokasi-info-item small {
-  font-size: 11px;
-  color: #aaa;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   display: block;
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  margin-bottom: 3px;
 }
 .lokasi-info-item p {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1a2e45;
-  margin: 4px 0 0;
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 500;
 }
 
 .btn-maps {
@@ -1218,11 +1086,6 @@ img {
   border: 1.5px solid rgba(0, 0, 0, 0.06);
   border-radius: var(--radius);
   padding: 20px;
-  transition:
-    box-shadow 0.3s,
-    border-color 0.3s,
-    transform 0.3s,
-    opacity 0.5s;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -1277,12 +1140,10 @@ img {
   font-size: 11px;
   color: #aaa;
 }
-
 .ulasan-stars {
   font-size: 13px;
   letter-spacing: 1px;
 }
-
 .ulasan-text {
   font-size: 13px;
   line-height: 1.6;
@@ -1308,7 +1169,6 @@ img {
   color: #fff;
 }
 
-/* Form ulasan */
 .ulasan-form-card {
   background: var(--bg-light);
   border-radius: var(--radius);
@@ -1397,7 +1257,6 @@ img {
   position: relative;
   z-index: 1;
 }
-
 .cta-title {
   font-weight: 800;
   font-size: 1.7rem;
@@ -1407,7 +1266,6 @@ img {
 .cta-title span {
   color: var(--blue-light);
 }
-
 .cta-desc {
   color: #b8d9f5;
   font-size: 14px;
@@ -1497,14 +1355,12 @@ img {
   font-size: 10px;
   color: var(--blue-light);
 }
-
 .footer-desc {
   color: #9bbad9;
   font-size: 13px;
   line-height: 1.7;
   max-width: 280px;
 }
-
 .footer-col-title {
   color: var(--blue-light);
   font-size: 12px;
@@ -1523,10 +1379,6 @@ img {
   margin-bottom: 10px;
   font-size: 13px;
   color: #9bbad9;
-  transition:
-    color 0.2s,
-    padding-left 0.2s;
-  cursor: default;
 }
 .footer-list li a {
   color: #9bbad9;
@@ -1563,7 +1415,6 @@ img {
   flex-shrink: 0;
 }
 
-/* Social buttons */
 .footer-social {
   display: flex;
   flex-wrap: wrap;
@@ -1652,6 +1503,38 @@ img {
     right: 0;
     font-size: 0.75rem;
     padding: 0.4rem 0.8rem;
+  }
+  .lightbox-container {
+    max-width: 95%;
+    width: 95%;
+  }
+  .lightbox-nav {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  .lightbox-prev {
+    left: 5px;
+  }
+  .lightbox-next {
+    right: 5px;
+  }
+  #lightbox-img {
+    height: 250px;
+  }
+  .lightbox-info {
+    padding: 15px 20px;
+  }
+  .lightbox-info h3 {
+    font-size: 1.2rem;
+  }
+  .lightbox-thumbnails {
+    padding: 10px 15px;
+    justify-content: flex-start;
+  }
+  .lightbox-thumbnails img {
+    width: 60px;
+    height: 45px;
   }
 }
 
