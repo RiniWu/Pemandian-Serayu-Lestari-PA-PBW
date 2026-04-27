@@ -47,13 +47,6 @@ $BASEURL = base_url();
                                 value="<?= htmlspecialchars($editData['nama'] ?? '') ?>" required>
                         </div>
 
-                        <div class="col-md-6">
-                            <label class="form-label fw-medium">Icon (Bootstrap Icon)</label>
-                            <input type="text" name="icon" class="form-control"
-                                placeholder="contoh: bi-water"
-                                value="<?= htmlspecialchars($editData['icon'] ?? '') ?>">
-                        </div>
-
                         <div class="col-12">
                             <label class="form-label fw-medium">Deskripsi</label>
                             <textarea name="deskripsi" class="form-control" rows="3"><?= htmlspecialchars($editData['deskripsi'] ?? '') ?></textarea>
@@ -139,7 +132,6 @@ $BASEURL = base_url();
                     <thead>
                         <tr>
                             <th width="40">#</th>
-                            <th>Icon</th>
                             <th>Nama</th>
                             <th>Foto</th>
                             <th>Status</th>
@@ -154,12 +146,6 @@ $BASEURL = base_url();
                                 <tr>
 
                                     <td><?= $i + 1 ?></td>
-
-                                    <td>
-                                        <div class="fs-5 text-primary">
-                                            <i class="bi <?= htmlspecialchars($f['icon']) ?>"></i>
-                                        </div>
-                                    </td>
 
                                     <td class="fw-medium">
                                         <?= htmlspecialchars($f['nama']) ?>

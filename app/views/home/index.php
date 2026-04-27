@@ -24,7 +24,7 @@ $BASEURL = base_url();
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar navbar-expand-lg navbar-custom fixed-top" id="mainNavbar">
         <div class="container">
-            <!-- BRAND -->
+
             <a class="navbar-brand d-flex align-items-center gap-3" href="#beranda">
                 <div class="brand-icon">
                     <i class="bi bi-water"></i>
@@ -34,14 +34,12 @@ $BASEURL = base_url();
                 </div>
             </a>
 
-            <!-- TOGGLER -->
             <button class="navbar-toggler navbar-toggler-custom border-0 shadow-none" type="button"
                 data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <i class="bi bi-list text-white fs-2"></i>
             </button>
 
-            <!-- MENU -->
             <div class="collapse navbar-collapse" id="navMenu">
                 <ul class="navbar-nav ms-auto align-items-center gap-2">
 
@@ -83,28 +81,23 @@ $BASEURL = base_url();
         <div class="container">
             <div class="row align-items-center g-5">
 
-                <!-- KIRI -->
                 <div class="col-lg-6">
 
-                    <!-- LOCATION -->
                     <div class="badge-location mb-4">
                         <i class="bi bi-geo-alt-fill me-1"></i> Samarinda, Kalimantan Timur
                     </div>
 
-                    <!-- TITLE -->
                     <h1 class="hero-title mb-3">
                         Nikmati Kesegaran<br>
-                        <span class="hero-title-accent">Alam Serayu</span><br>
+                        <span class="hero-title-accent">Pemandian Serayu</span><br>
                         Lestari
                     </h1>
 
-                    <!-- DESC -->
                     <p class="hero-desc mb-4">
                         Destinasi wisata air keluarga terbaik di Samarinda. Kolam renang jernih,
                         suasana alam sejuk, dan fasilitas lengkap menanti Anda.
                     </p>
 
-                    <!-- BUTTON -->
                     <div class="hero-buttons mb-5">
                         <a href="#wisata" class="btn-hero-primary">
                             <i class="bi bi-compass me-2"></i>Telusuri Sekarang
@@ -114,7 +107,6 @@ $BASEURL = base_url();
                         </a>
                     </div>
 
-                    <!-- STATS -->
                     <div class="hero-stats">
 
                         <div class="stat-item">
@@ -132,7 +124,7 @@ $BASEURL = base_url();
                         <div class="stat-divider"></div>
 
                         <div class="stat-item">
-                            <h4>10+</h4>
+                            <h4>8+</h4>
                             <p>Fasilitas</p>
                         </div>
 
@@ -140,7 +132,6 @@ $BASEURL = base_url();
 
                 </div>
 
-                <!-- KANAN -->
                 <div class="col-lg-6">
                     <div class="hero-visual">
 
@@ -235,7 +226,6 @@ $BASEURL = base_url();
 
             <div class="row g-4 mt-4">
 
-                <!-- 1 -->
                 <div class="col-md-4">
                     <div class="feature-card">
                         <div class="feature-icon bg-blue">
@@ -249,7 +239,6 @@ $BASEURL = base_url();
                     </div>
                 </div>
 
-                <!-- 2 -->
                 <div class="col-md-4">
                     <div class="feature-card">
                         <div class="feature-icon bg-green">
@@ -263,7 +252,6 @@ $BASEURL = base_url();
                     </div>
                 </div>
 
-                <!-- 3 -->
                 <div class="col-md-4">
                     <div class="feature-card">
                         <div class="feature-icon bg-orange">
@@ -328,7 +316,6 @@ $BASEURL = base_url();
 
                                 </div>
 
-                                <!-- tombol -->
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselWisata" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon"></span>
                                 </button>
@@ -344,7 +331,6 @@ $BASEURL = base_url();
                     </div>
                 </div>
 
-                <!-- TENTANG -->
                 <div class="col-lg-7" id="tentang">
                     <div class="tentang-card h-100">
                         <h3 class="mb-3">Tentang <span>Kami</span></h3>
@@ -407,23 +393,21 @@ $BASEURL = base_url();
                         <div class="fasilitas-card-img"
                             onclick='bukaLightbox(<?= $index ?>, "<?= $nama ?>", "<?= $deskripsi ?>", <?= $gambarJson ?>)'>
 
-                            <!-- Foto -->
                             <div class="fas-img-wrap">
                                 <img src="<?= $thumbSrc ?>"
                                     alt="<?= $nama ?>"
                                     class="fas-img"
                                     loading="lazy">
-                                <!-- overlay gelap saat hover -->
+
                                 <div class="fas-hover-overlay">
                                     <i class="bi bi-zoom-in"></i>
                                 </div>
-                                <!-- badge jumlah foto -->
+
                                 <span class="fas-foto-badge">
                                     <i class="bi bi-images"></i> <?= count($gambarArray) ?>
                                 </span>
                             </div>
 
-                            <!-- Nama fasilitas -->
                             <div class="fas-body">
                                 <p class="fas-nama"><?= htmlspecialchars($f['nama']) ?></p>
                             </div>
@@ -497,7 +481,6 @@ $BASEURL = base_url();
             <h2 class="section-title-main text-center">Lokasi <span>Wisata</span></h2>
 
             <div class="map-wrapper mt-4">
-                <!-- Diperbaiki: referrerpolicy dipindah ke dalam tag iframe (bukan di luar) -->
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3989.7038807288204!2d117.2108934!3d-0.4339606!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df5d7ad57501ed5%3A0x9b933c83728110ea!2sTempat%20wisata%20Pemandian%20Serayu%20Lestari!5e0!3m2!1sid!2sid!4v1776102263339!5m2!1sid!2sid"
                     width="100%"
@@ -529,7 +512,7 @@ $BASEURL = base_url();
                     <i class="bi bi-telephone-fill"></i>
                     <div>
                         <small>Kontak</small>
-                        <p>0852-5550-9272</p>
+                        <p>0823-4200-0324</p>
                     </div>
                 </div>
             </div>
@@ -713,6 +696,7 @@ $BASEURL = base_url();
                         <li><a href="#">Beranda</a></li>
                         <li><a href="#wisata">Wisata</a></li>
                         <li><a href="#ulasan">Ulasan</a></li>
+                        <li><a href="<?= $BASEURL ?>/galeri">Galeri</a></li>
                         <li><a href="<?= $BASEURL ?>/admin">Admin</a></li>
                     </ul>
                 </div>
@@ -721,10 +705,14 @@ $BASEURL = base_url();
                 <div class="col-md-3">
                     <h6 class="footer-col-title">Fasilitas</h6>
                     <ul class="footer-list">
-                        <li><i class="bi bi-check2 me-1"></i>Kolam Renang</li>
-                        <li><i class="bi bi-check2 me-1"></i>Area Bermain</li>
+                        <li><i class="bi bi-check2 me-1"></i>Kolam Renang Dewasa & Anak</li>
+                        <li><i class="bi bi-check2 me-1"></i>Area Parkir</li>
                         <li><i class="bi bi-check2 me-1"></i>Gazebo & Santai</li>
-                        <li><i class="bi bi-check2 me-1"></i>Warung Makan</li>
+                        <li><i class="bi bi-check2 me-1"></i>Kantin</li>
+                        <li><i class="bi bi-check2 me-1"></i>Kamar Bilas</li>
+                        <li><i class="bi bi-check2 me-1"></i>Spot Foto</li>
+                        <li><i class="bi bi-check2 me-1"></i>Kolam Busa</li>
+                        <li><i class="bi bi-check2 me-1"></i>Kolam Ombak</li>
                     </ul>
                 </div>
 
@@ -734,7 +722,7 @@ $BASEURL = base_url();
                     <ul class="footer-contact-list">
                         <li><i class="bi bi-geo-alt-fill"></i> Jl. Serayu No.24, Tanah Merah, Kec. Samarinda Utara, Kota Samarinda, Kalimantan Timur 75116</li>
                         <li><i class="bi bi-clock-fill"></i> Buka Setiap Hari: 08.30 – 17.00 WITA</li>
-                        <li><i class="bi bi-telephone-fill"></i> 0852-5550-9272</li>
+                        <li><i class="bi bi-telephone-fill"></i> 0823-4200-0324</li>
                         <li><i class="bi bi-envelope-fill"></i> serayulestari@gmail.com</li>
                     </ul>
                 </div>
@@ -842,8 +830,8 @@ $BASEURL = base_url();
     <script>
         function cekStatusWisata() {
             // Jam operasional
-            const jamBuka = 8.5; // 08:30
-            const jamTutup = 17.5; // 17:30
+            const jamBuka = 8.5;
+            const jamTutup = 17.0;
 
             // Ambil waktu WITA (Asia/Makassar)
             const sekarang = new Date().toLocaleString("en-US", {
@@ -873,6 +861,3 @@ $BASEURL = base_url();
 </body>
 
 </html>
-
-
-
