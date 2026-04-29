@@ -2,6 +2,37 @@
 $BASEURL = base_url();
 $allImages = $allImages ?? [];
 $filters = $filters ?? [];
+
+if (!function_exists('iconFilterFasilitas')) {
+    function iconFilterFasilitas($label)
+    {
+        $label = strtolower(trim((string) $label));
+
+        $iconMap = [
+            'kolam renang dewasa' => 'bi-water',
+            'kolam anak' => 'bi-emoji-smile',
+            'gazebo' => 'bi-house-heart',
+            'santai' => 'bi-house-heart',
+            'warung makan' => 'bi-cup-hot',
+            'kantin' => 'bi-cup-hot',
+            'kamar bilas' => 'bi-droplet-half',
+            'toilet' => 'bi-door-open',
+            'area parkir' => 'bi-p-circle',
+            'parkir' => 'bi-p-circle',
+            'spot foto' => 'bi-camera',
+            'kolam busa' => 'bi-clouds',
+            'kolam ombak' => 'bi-water',
+        ];
+
+        foreach ($iconMap as $keyword => $icon) {
+            if (str_contains($label, $keyword)) {
+                return $icon;
+            }
+        }
+
+        return 'bi-grid-1x2';
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -546,8 +577,9 @@ $filters = $filters ?? [];
                     <i class="bi bi-grid-3x3-gap me-1"></i>Semua
                 </button>
                 <?php foreach ($filters as $filter): ?>
+                    <?php $iconClass = iconFilterFasilitas($filter['label'] ?? ''); ?>
                     <button class="filter-btn" data-filter="<?= htmlspecialchars($filter['key']) ?>">
-                        <i class="bi bi-building me-1"></i><?= htmlspecialchars($filter['label']) ?>
+                        <i class="bi <?= htmlspecialchars($iconClass) ?> me-1"></i><?= htmlspecialchars($filter['label']) ?>
                     </button>
                 <?php endforeach; ?>
             </div>
