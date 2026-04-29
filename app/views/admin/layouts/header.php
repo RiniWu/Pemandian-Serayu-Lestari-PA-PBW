@@ -4,6 +4,8 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $BASEURL = base_url();
+$adminCssPath = dirname(__DIR__, 4) . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'admin.css';
+$adminCssVersion = file_exists($adminCssPath) ? filemtime($adminCssPath) : time();
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +26,7 @@ $BASEURL = base_url();
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="<?= $BASEURL ?>/assets/css/admin.css">
+    <link rel="stylesheet" href="<?= $BASEURL ?>/assets/css/admin.css?v=<?= $adminCssVersion ?>">
 </head>
 
 <body class="admin-body">
@@ -91,11 +93,13 @@ $BASEURL = base_url();
         </nav>
     </div>
 
+    <div class="admin-sidebar-overlay" id="adminSidebarOverlay"></div>
+
     <!-- Main Content -->
     <div class="admin-main" id="adminMain">
 
         <div class="admin-topbar">
-            <button class="btn-toggle-sidebar" id="toggleSidebar">
+            <button class="btn-toggle-sidebar" id="toggleSidebar" type="button" aria-label="Buka menu" aria-controls="adminSidebar" aria-expanded="false">
                 <i class="bi bi-list"></i>
             </button>
 
